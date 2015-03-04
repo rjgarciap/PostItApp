@@ -22,7 +22,7 @@ public class GetNoteServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		
 		// OJO Habrá que añadir la geolocalización
-		resp.getWriter().println("{\"title\":" + note.title + ", \"text\":" + note.text + "}");
+		resp.getWriter().println("{\"title\": \"" + note.title + "\", \"text\": \"" + note.text + "\"}");
 		
 	}	
 }
