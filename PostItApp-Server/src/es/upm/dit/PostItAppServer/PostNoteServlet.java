@@ -14,7 +14,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 // IMPORTAR LOS PAQUETES DAO.
 
-public class PostNotesServlet extends HttpServlet{
+public class PostNoteServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L; //Serializes objects through HTTP.
 	
@@ -26,7 +26,7 @@ public class PostNotesServlet extends HttpServlet{
 		String lat = checkNull (req.getParameter("lat"));
 		String lon  = checkNull (req.getParameter("lon"));
 		
-		//AÑADIR LA GEOLOCALIZACION
+		//Aï¿½ADIR LA GEOLOCALIZACION
 		
 		
 		
