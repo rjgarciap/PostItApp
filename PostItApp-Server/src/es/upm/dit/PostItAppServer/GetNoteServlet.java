@@ -21,7 +21,7 @@ public class GetNoteServlet extends HttpServlet {
 		
 		resp.setContentType("application/json");
 		
-		// OJO Abrá que añadir la geolocalización
+		// OJO Habrá que añadir la geolocalización
 		resp.getWriter().println("{\"title\":" + note.title + ", \"text\":" + note.text + "}");
 		
 	}	
