@@ -4,5 +4,12 @@
     <string name="app_name">PostItApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_post_it_upload">PostItUpload</string>
+    <string name="UploadPrincipalButton">Upload</string>
+    <string name="SendButton">Send</string>
+    <string name="TitlePostIt">Title</string>
+    <string name="ContentPostIt">Content</string>
+    <string name="title_activity_success_upload">SuccessUploadActivity</string>
+    <string name="SuccesfullyUploadedPostIt">You have successfully uploaded the note</string>
 
 </resources>

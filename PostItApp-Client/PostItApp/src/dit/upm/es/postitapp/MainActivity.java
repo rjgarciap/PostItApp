@@ -1,19 +1,41 @@
 package dit.upm.es.postitapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends Activity {
 
+	
+	Button upload_button;
+	Button download_button;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        upload_button = (Button) findViewById(R.id.uploadPostIt);
+        
+        upload_button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pressUpload();
+				
+			}
+		});
     }
 
+    public void pressUpload(){
+    	Intent i = new Intent(this,PostItUpload.class);
+    	startActivity(i);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
