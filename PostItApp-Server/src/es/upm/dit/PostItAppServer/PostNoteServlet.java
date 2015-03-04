@@ -22,7 +22,7 @@ public class PostNoteServlet extends HttpServlet{
 		System.out.println("Creating new Post-It ");
 				
 		String title = checkNull(req.getParameter("title")); // Checks if the parameters are or not empty.
-		String text = checkNull (req.getParameter ("text"));
+		String text = checkNull (req.getParameter ("content"));
 		String lat = checkNull (req.getParameter("lat"));
 		String lon  = checkNull (req.getParameter("lon"));
 		
