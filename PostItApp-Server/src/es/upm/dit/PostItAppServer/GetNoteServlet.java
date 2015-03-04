@@ -1,5 +1,11 @@
 package es.upm.dit.PostItAppServer;
 
+import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
+
+import es.upm.dit.PostItAppServer.dao.NoteDAO;
+
+import es.upm.dit.PostItAppServer.model.Note;
+
 import java.io.IOException;
 import javax.servlet.http.*;
 
