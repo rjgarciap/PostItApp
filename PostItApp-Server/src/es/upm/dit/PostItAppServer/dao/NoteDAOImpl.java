@@ -1,10 +1,7 @@
 package es.upm.dit.PostItAppServer.dao;
 
 import java.util.List;
-
 import es.upm.dit.PostItAppServer.model.Note;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -25,6 +22,7 @@ public class NoteDAOImpl implements NoteDAO {
 	@Override
 	public List<Note> listNotes() {
 		EntityManager em = EMFService.get().createEntityManager();
+		//HABRA QUE HACER UNA CONSULTA MAS RARA
 		Query q = em.createQuery("select n from Notes n");
 		List<Note> notes = q.getResultList();
 		
@@ -39,7 +37,6 @@ public class NoteDAOImpl implements NoteDAO {
 			em.persist(note);
 			em.close();
 		}
-
 	}
 
 	@Override
@@ -57,20 +54,21 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 
 	@Override
-	public Note getById(String id) {
+	public Note getById(long id) {
 		
-		Long id2 = Long.parseLong(id);
 		EntityManager em = EMFService.get().createEntityManager();
 		//Query q = em.createQuery("select n from Notes n where n.id =:id");
 		//Note note = (Note) q.getSingleResult();
 		//return note;
 
 		 Note note = null;
-		  try{
-		  	note = em.find(Note.class, id2);
-		  } finally {
-		  	em.close();}  
-	 return note;		
+		 try{
+		  	 note = em.find(Note.class, id);
+		 } finally {
+			 em.close();
+		 }
+		  
+		 return note;		
 	}
 
 }

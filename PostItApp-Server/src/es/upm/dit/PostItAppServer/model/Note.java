@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-
+@Entity
 public class Note implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -17,9 +17,8 @@ public class Note implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//Cambio a público porque si no lo de Moises da error
-	public String title;
-	public String text;
+	private String title;
+	private String text;
 	private Double lat;
 	private Double lon;
 	
@@ -32,8 +31,6 @@ public class Note implements Serializable {
 		this.lon = lon;
 		
 	}
-	
-	
 	
 	public Long getId(){
 		return id;
@@ -52,6 +49,9 @@ public class Note implements Serializable {
 	}
 	public void setTitle(String title){
 		this.title = title;
+	}
+	public void setText(String text){
+		this.text= text;
 	}
 	public void setLat(Double lat){
 		this.lat = lat;

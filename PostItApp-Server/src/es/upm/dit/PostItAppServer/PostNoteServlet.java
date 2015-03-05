@@ -1,15 +1,9 @@
 package es.upm.dit.PostItAppServer;
 
 import java.io.IOException;
-
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
+import javax.servlet.http.*;
+import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
+import es.upm.dit.PostItAppServer.dao.NoteDAO;
 
 
 // IMPORTAR LOS PAQUETES DAO.
@@ -19,22 +13,24 @@ public class PostNoteServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L; //Serializes objects through HTTP.
 	
 	public void doPost (HttpServletRequest req, HttpServletResponse resp) throws IOException{ // Uploads the content of a Post-It
-		System.out.println("Creating new Post-It ");
+		
+		System.out.println("Creating new note");
 				
 		String title = checkNull(req.getParameter("title")); // Checks if the parameters are or not empty.
-		String text = checkNull (req.getParameter ("content"));
-		String lat = checkNull (req.getParameter("lat"));
-		String lon  = checkNull (req.getParameter("lon"));
+		String text = checkNull(req.getParameter ("content"));
+		String lat = checkNull(req.getParameter("lat"));
+		String lon  = checkNull(req.getParameter("lon"));
 		
-		//A�ADIR LA GEOLOCALIZACION
+		NoteDAO dao = NoteDAOImpl.getInstance();
+		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon));
 		
-		
-		
-		// INTRODUCIR LOS METODOS DEL DAO, Y EL REDIRECT...
-		
-		resp.sendRedirect("/"); // Loads the index page.
+		//Habría que enviar un código de 200 ok o algo que haga que la app sepa que ha ido bien o no
+	
+		//resp.sendRedirect("/"); // Loads the index page.
 		
 	}
+	
+	//Yo borraria esto de check null y mejor obligaria a rellenar todos los campos del form
 	private String checkNull (String s){ 
 		if (s == null){ 
 			return "This field should not be empty";

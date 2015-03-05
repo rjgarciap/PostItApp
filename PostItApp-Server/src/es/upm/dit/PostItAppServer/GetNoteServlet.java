@@ -1,13 +1,10 @@
 package es.upm.dit.PostItAppServer;
 
-import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
-
-import es.upm.dit.PostItAppServer.dao.NoteDAO;
-
-import es.upm.dit.PostItAppServer.model.Note;
-
 import java.io.IOException;
 import javax.servlet.http.*;
+import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
+import es.upm.dit.PostItAppServer.dao.NoteDAO;
+import es.upm.dit.PostItAppServer.model.Note;
 
 public class GetNoteServlet extends HttpServlet {
 	
@@ -19,16 +16,14 @@ public class GetNoteServlet extends HttpServlet {
 		// Recupero de la petición HTTP el id de la nota que quiere ver el usuario
 		String id = req.getParameter("id");
 		
-		// OJO a los nombres aquí
 		NoteDAO dao = NoteDAOImpl.getInstance();
 		
-		// OJO que este método no venía en lo de los TODOs
-		Note note = dao.getById(id);
+		Note note = dao.getById(Long.parseLong(id));
 		
 		resp.setContentType("application/json");
 		
 		// OJO Habrá que añadir la geolocalización
-		resp.getWriter().println("{\"title\": \"" + note.title + "\", \"text\": \"" + note.text + "\"}");
+		resp.getWriter().println("{\"title\": \"" + note.getTitle() + "\", \"text\": \"" + note.getText() + "\"}");
 		
 	}	
 }
