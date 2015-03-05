@@ -15,8 +15,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 public class PostItUpload extends Activity {
 
 	HttpClient client;
@@ -35,7 +37,7 @@ public class PostItUpload extends Activity {
 	EditText titleEditText;
 	EditText contentEditText;
 	Button sendButton;
-	
+	AlertDialog alertDialog;
 
 	
 	@Override
@@ -44,7 +46,7 @@ public class PostItUpload extends Activity {
 		setContentView(R.layout.activity_post_it_upload);
 		
 		client = new DefaultHttpClient();
-		
+		alertDialog = new AlertDialog.Builder(this).create();
         progressBar = new ProgressDialog(this);
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.setMessage("Uploading...");
@@ -65,6 +67,18 @@ public class PostItUpload extends Activity {
 				    return;
 				}
 				new PostNote().execute();
+				
+				
+				
+				alertDialog.setTitle("Subido correctamente");
+				alertDialog.setMessage("subido perfecto");
+				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						// aquí puedes añadir funciones
+							finish();
+						}
+				});
+				alertDialog.show();
 				
 			}
 		});
@@ -114,7 +128,8 @@ public class PostItUpload extends Activity {
 			}
 			try {
 				HttpResponse response = client.execute(post);
-				Log.i("ey", response.getStatusLine().toString());
+				
+				//Obtener respuesta
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,11 +152,7 @@ public class PostItUpload extends Activity {
 	    @Override
 	    protected void onPostExecute(Boolean result) {
 	        progressBar.dismiss();
-	        if(result){
-	        	Intent i = new Intent();
-	        	i.setClass(getApplicationContext(), SuccessUploadActivity.class);
-	        	startActivity(i);
-	        }
+	        //Aqui comprobamos el resultado
 	    }
 	 
 	}
