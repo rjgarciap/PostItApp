@@ -119,6 +119,9 @@ public class PostItUpload extends Activity {
 			
 			pairs.add(new BasicNameValuePair("title", titleEditText.getText().toString()));
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));
+			//Debemos obtener la latitud y longitud
+			pairs.add(new BasicNameValuePair("lat", "0"));
+			pairs.add(new BasicNameValuePair("lon", "0"));
 			
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
