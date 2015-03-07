@@ -17,15 +17,9 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.DownloadManager.Request;
 import android.content.DialogInterface;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +28,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class PostItUpload extends Activity implements LocationListener {
+public class PostItUpload extends Activity{
 
 	HttpClient client;
 	ProgressDialog progressBar;
@@ -43,12 +37,6 @@ public class PostItUpload extends Activity implements LocationListener {
 	EditText contentEditText;
 	Button sendButton;
 	AlertDialog alertDialog;
-
-	LocationManager locManager;
-	String provider;
-	private static final long MIN_TIME = 1 * 60* 1000 ; // 10 segundos
-	private static final long MIN_DISTANCE = 100 ; // 5 metros
-	Criteria criteria;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +44,6 @@ public class PostItUpload extends Activity implements LocationListener {
 		setContentView(R.layout.activity_post_it_upload);
 		
 		
-		locManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-		
-	    Criteria criteria = new Criteria();
-	    criteria.setCostAllowed(false);
-	    criteria.setAltitudeRequired(false);
-	    criteria.setAccuracy(Criteria.ACCURACY_FINE);	
-	    provider = locManager.getBestProvider(criteria, true);
-	    
-	    Log.i("info","Mejor proveedor: " + provider + "\n");
-	    	    
 	    client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
         progressBar = new ProgressDialog(this);
@@ -113,14 +91,11 @@ public class PostItUpload extends Activity implements LocationListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		 locManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
 	}
-    @Override    protected void onPause() {
+ 
+	@Override    protected void onPause() {
 
-        super.onPause();
-        
-        locManager.removeUpdates(this);
-
+        super.onPause();        
     }
 
 	@Override
@@ -154,13 +129,13 @@ public class PostItUpload extends Activity implements LocationListener {
 			
 			pairs.add(new BasicNameValuePair("title", titleEditText.getText().toString()));
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));
-		    Location location = locManager.getLastKnownLocation(provider);
 			//Debemos obtener la latitud y longitud
-		    while(location == null){
-		    	location = locManager.getLastKnownLocation(provider);
-		    }
-			pairs.add(new BasicNameValuePair("lat", ""+location.getLatitude()));
-			pairs.add(new BasicNameValuePair("lon", ""+location.getLongitude()));
+
+			Bundle extras = getIntent().getExtras();
+		    int lat = extras.getInt("lat");
+		    int lon = extras.getInt("long");
+			pairs.add(new BasicNameValuePair("lat", ""+lat));
+			pairs.add(new BasicNameValuePair("lon", ""+lon));
 			
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
@@ -202,38 +177,7 @@ public class PostItUpload extends Activity implements LocationListener {
 
 
 
-	@Override
-	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-		Log.i("Provider INFO", "onLocationChanged" +location.toString());
-		
-		
-	}
 
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		Log.i("Provider INFO", "onStatusChanged" +status);
-
-		
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		Log.i("Provider INFO", "onProviderEnabled" +provider.toString());
-
-		
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-		Log.i("Provider INFO", "onProviderDisabled" +provider.toString());
-	    provider = locManager.getBestProvider(criteria, true);
-
-	}
-	
 	
 	
 	
