@@ -19,7 +19,7 @@ public class PostNoteServlet extends HttpServlet{
 		String title = checkNull(req.getParameter("title")); // Checks if the parameters are or not empty.
 		String text = checkNull(req.getParameter ("content"));
 		String lat = checkNull(req.getParameter("lat"));
-		String lon  = checkNull(req.getParameter("lon"));
+		String lon  = checkNull(req.getParameter("long"));
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
 		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon));

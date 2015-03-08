@@ -1,7 +1,10 @@
 package es.upm.dit.PostItAppServer.dao;
 
 import java.util.List;
+
 import es.upm.dit.PostItAppServer.model.Note;
+import es.upm.dit.PostItAppServer.dao.EMFService;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -69,6 +72,16 @@ public class NoteDAOImpl implements NoteDAO {
 		 }
 		  
 		 return note;		
+	}
+
+	@Override
+	public List<Note> getNearNotes(Double lat, Double lon) {
+		// TODO Auto-generated method stub
+		
+		EntityManager em = EMFService.get().createEntityManager();
+		Query q = em.createQuery("select n from Note n where n.lat >= :lat-2 AND lat <= :lat+2 AND lon >= :lon-2 AND lon <= :lon+2");
+		List<Note> notes= q.getResultList();
+		return notes;
 	}
 
 }

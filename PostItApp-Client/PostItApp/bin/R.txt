@@ -97,8 +97,9 @@ int drawable ic_plusone_medium_off_client 0x7f02001b
 int drawable ic_plusone_small_off_client 0x7f02001c
 int drawable ic_plusone_standard_off_client 0x7f02001d
 int drawable ic_plusone_tall_off_client 0x7f02001e
-int drawable powered_by_google_dark 0x7f02001f
-int drawable powered_by_google_light 0x7f020020
+int drawable postit 0x7f02001f
+int drawable powered_by_google_dark 0x7f020020
+int drawable powered_by_google_light 0x7f020021
 int id action_settings 0x7f07001e
 int id adjust_height 0x7f070002
 int id adjust_width 0x7f070001

@@ -11,5 +11,6 @@ public interface NoteDAO {
 	public void add(String title, String text, Double lat, Double lon); //Add nota
 	public void remove(long id); //Borra nota con ese id
 	public Note getById(long id);
+	public List<Note> getNearNotes(Double lat, Double lon);
 
 }

@@ -462,8 +462,9 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f02001c;
         public static final int ic_plusone_standard_off_client=0x7f02001d;
         public static final int ic_plusone_tall_off_client=0x7f02001e;
-        public static final int powered_by_google_dark=0x7f02001f;
-        public static final int powered_by_google_light=0x7f020020;
+        public static final int postit=0x7f02001f;
+        public static final int powered_by_google_dark=0x7f020020;
+        public static final int powered_by_google_light=0x7f020021;
     }
     public static final class id {
         public static final int action_settings=0x7f07001e;

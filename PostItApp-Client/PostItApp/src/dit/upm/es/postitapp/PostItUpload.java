@@ -132,10 +132,10 @@ public class PostItUpload extends Activity{
 			//Debemos obtener la latitud y longitud
 
 			Bundle extras = getIntent().getExtras();
-		    int lat = extras.getInt("lat");
-		    int lon = extras.getInt("long");
+		    Double lat = extras.getDouble("lat");
+		    Double lon = extras.getDouble("long");
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
-			pairs.add(new BasicNameValuePair("lon", ""+lon));
+			pairs.add(new BasicNameValuePair("long", ""+lon));
 			
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
