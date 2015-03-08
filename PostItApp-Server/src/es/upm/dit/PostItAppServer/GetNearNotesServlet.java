@@ -29,7 +29,6 @@ private static final long serialVersionUID = 1L;
 		
 		List <Note> notes = dao.getNearNotes(lat, lon);
 		
-		resp.setContentType("application/json");
 		session.setAttribute("notesList", notes);
 	
 	}	
