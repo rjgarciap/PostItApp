@@ -13,8 +13,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-class>es.upm.dit.PostItAppServer.PostNoteServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>PostNearNotesServlet</servlet-name>
-		<servlet-class>es.upm.dit.PostItAppServer.PostNearNotesServlet</servlet-class>
+		<servlet-name>GetNearNotesServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.GetNearNotesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetNoteServlet</servlet-name>
@@ -25,8 +25,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/postnote</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>PostNearNotesServlet</servlet-name>
-		<url-pattern>/postnearnotes</url-pattern>
+		<servlet-name>GetNearNotesServlet</servlet-name>
+		<url-pattern>/getnearnotes</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

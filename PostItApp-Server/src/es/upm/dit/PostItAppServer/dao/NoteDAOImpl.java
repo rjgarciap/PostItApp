@@ -1,5 +1,6 @@
 package es.upm.dit.PostItAppServer.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.upm.dit.PostItAppServer.model.Note;
@@ -77,10 +78,20 @@ public class NoteDAOImpl implements NoteDAO {
 	@Override
 	public List<Note> getNearNotes(Double lat, Double lon) {
 		// TODO Auto-generated method stub
-		
+		Double latSup = lat+1;
+		Double latInf = lat-1;
+	
 		EntityManager em = EMFService.get().createEntityManager();
-		Query q = em.createQuery("select n from Note n where n.lat >= :lat-2 AND lat <= :lat+2 AND lon >= :lon-2 AND lon <= :lon+2");
+		Query q = em.createQuery("select n from Note n where n.lat >= :latInf AND n.lat <= :latSup");
+		q.setParameter("latSup", latSup);
+		q.setParameter("latInf", latInf);
 		List<Note> notes= q.getResultList();
+		if(notes == null){
+			notes = new ArrayList<Note>();
+		}
+		
+
+		
 		return notes;
 	}
 
