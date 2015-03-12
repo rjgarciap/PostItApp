@@ -183,15 +183,8 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	}
 	
 	@Override
-	public void onMapClick(LatLng puntoPulsado) {
-		map.addMarker(new MarkerOptions().position(puntoPulsado).icon(BitmapDescriptorFactory.fromResource(R.drawable.postit)).anchor(0.5f, 0.5f));
+	public void onMapClick(LatLng clickPoint) {
 
-	}
-	@Override
-	public boolean onMarkerClick(Marker markerPressed){
-		// Lo que haga al tocar en un marker
-		
-		return false;
 	}
 
 
@@ -268,7 +261,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 				map.clear();
 				allMarkersMap.clear();
 			}else{
-				MarkerOptions addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon()));
+				MarkerOptions addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.postit)).anchor(0.3f, 0.3f);
 				Marker addedMarker = map.addMarker(addedMarkerOptions);
 				allMarkersMap.put(addedMarker, values[0].getId());
 			}
@@ -288,4 +281,10 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	        }
 		}
 	};
+
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
