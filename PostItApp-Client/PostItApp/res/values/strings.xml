@@ -10,11 +10,13 @@
     <string name="SendButton">Send</string>
     <string name="TitlePostIt">Title</string>
     <string name="ContentPostIt">Content</string>
+    <string name="ColorPostIt">Color Note</string>
     <string name="title_activity_success_upload">SuccessUploadActivity</string>
     <string name="SuccesfullyUploadedPostIt">You have successfully uploaded the note</string>
 
     <color name="BlueApp">#D9E9F4</color>
     <color name="YellowApp">#FFFAAE</color>
+    <color name="WhiteApp">#ffffff</color>
 
     <string name="title_activity_post_it_show">PostItShow</string>
 

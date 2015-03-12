@@ -20,11 +20,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 
@@ -37,7 +39,9 @@ public class PostItUpload extends Activity{
 	EditText contentEditText;
 	Button sendButton;
 	AlertDialog alertDialog;
-
+	RadioGroup radioGroupColors;
+	int idxColor;
+	ColorNote colorNoteSelected;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +58,8 @@ public class PostItUpload extends Activity{
 		contentEditText = (EditText) findViewById(R.id.contentText);
 		sendButton = (Button) findViewById(R.id.sendButton);
 
+		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
+		
 		sendButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -65,6 +71,10 @@ public class PostItUpload extends Activity{
 					Toast.makeText(getApplicationContext(), "You did not enter some field.", Toast.LENGTH_SHORT).show();
 					return;
 				}
+
+				View radioButton = radioGroupColors.findViewById(radioGroupColors.getCheckedRadioButtonId());
+				int idx = radioGroupColors.indexOfChild(radioButton);
+				colorNoteSelected = getColorNote(idx);
 				new PostNote().execute();
 
 
@@ -118,6 +128,29 @@ public class PostItUpload extends Activity{
 	}
 
 
+	public ColorNote getColorNote(int idxColor){
+		
+		ColorNote result;
+		switch (idxColor) {
+		case 0:
+			result = ColorNote.BLUE;
+			break;
+		case 1:
+			result = ColorNote.YELLOW;
+			break;
+		case 2:
+			result = ColorNote.RED;
+			break;
+		case 3:
+			result = ColorNote.GREEN;
+			break;
+
+		default:
+			result = ColorNote.BLUE;
+			break;
+		}
+		return result;
+	}
 
 	private class PostNote extends AsyncTask<Void, Void, Boolean> {
 
@@ -136,7 +169,8 @@ public class PostItUpload extends Activity{
 			Double lon = extras.getDouble("long");
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
 			pairs.add(new BasicNameValuePair("long", ""+lon));
-
+			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
+			Log.i("ver color", colorNoteSelected.toString());
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
 			} catch (UnsupportedEncodingException e) {
@@ -171,6 +205,8 @@ public class PostItUpload extends Activity{
 			progressBar.dismiss();
 			//Aqui comprobamos el resultado
 			alertDialog.show();
+			
+
 		}
 
 	}

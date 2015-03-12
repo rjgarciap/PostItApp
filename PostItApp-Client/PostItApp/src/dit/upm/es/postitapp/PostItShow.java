@@ -19,6 +19,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.google.android.gms.internal.ra;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -28,6 +29,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class PostItShow extends Activity {
@@ -37,12 +39,15 @@ public class PostItShow extends Activity {
 	
 	HttpClient client;
 	ProgressDialog progressBar;
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_it_show);
 		titleTextView = (TextView) findViewById(R.id.titleNote);
 		contentTextView = (TextView) findViewById(R.id.contentNote);
+
 		client = new DefaultHttpClient();
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -125,6 +130,7 @@ public class PostItShow extends Activity {
 			progressBar.dismiss();
 			titleTextView.setText(result.getTitle());
 			contentTextView.setText(result.getText());
+
 		}
 
 	}

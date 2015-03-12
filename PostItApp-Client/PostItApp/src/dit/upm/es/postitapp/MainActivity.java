@@ -46,12 +46,12 @@ import android.view.View;
 
 public class MainActivity extends FragmentActivity  implements OnMapClickListener, OnMarkerClickListener{
 	private GoogleMap map;
-	
+
 	private Double lat;
 	private Double lon;
-	
+
 	private Map<Marker,Long> allMarkersMap;
-	
+
 	GetNearNotes getNearNotesthread;
 	HttpClient client;
 
@@ -64,15 +64,15 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		map.setMyLocationEnabled(true);
 		map.setOnMapClickListener(this);
 		map.setOnMyLocationChangeListener(myLocationChangeListener);
-		
 
-		
+
+
 		allMarkersMap = new HashMap<Marker, Long>();
-		
+
 		client = new DefaultHttpClient();
-		
+
 		map.setOnMarkerClickListener(new OnMarkerClickListener() {
-			
+
 			@Override
 			public boolean onMarkerClick(Marker markerPressed) {
 				// TODO Auto-generated method stub
@@ -81,9 +81,9 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 				return false;
 			}
 		});
-    	
+
 	}
-	
+
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -91,45 +91,45 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		getNearNotesthread = new GetNearNotes();
 		getNearNotesthread.execute();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		getNearNotesthread.cancel(true);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		getNearNotesthread.cancel(true);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
 		getNearNotesthread.cancel(true);
 	}
-	
-	
+
+
 	public void pressPost(){
 		Intent i = new Intent(this,PostItUpload.class);
 		i.putExtra("lat", map.getMyLocation().getLatitude());
 		i.putExtra("long", map.getMyLocation().getLongitude());
 		startActivity(i);
 	}
-	
-	
+
+
 	public void pressGet(Long id){
 		Intent i = new Intent(this,PostItShow.class);
 		i.putExtra("idNote",id);
 		Log.i("Sdf",""+id);
 		startActivity(i);
 	}
-	
-	
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,7 +173,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 						map.getCameraPosition().target.longitude)));
 
 	}
-	
+
 	public void addMarker(Double lat, Double lon) {
 		//Para llamarlo desde fuera
 		map.addMarker(new MarkerOptions().position(
@@ -181,7 +181,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 						lon)));
 
 	}
-	
+
 	@Override
 	public void onMapClick(LatLng clickPoint) {
 
@@ -210,7 +210,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 					HttpResponse response = client.execute(get);
 					HttpEntity entity = response.getEntity();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(),"iso-8859-1"),8);
-					
+
 					String jsonResponse = reader.readLine();
 					Log.i("ey",jsonResponse);
 					Gson gson = new Gson();
@@ -219,12 +219,12 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 					if(noteList != null){
 						publishProgress(null);
 						for(Note a: noteList){
-						  publishProgress(a);
-						  Log.i("ey",a.getTitle());
-					    }
-						
+							publishProgress(a);
+							Log.i("ey",a.getTitle());
+						}
+
 					}
-					
+
 					//Obtener respuesta
 				} catch (ClientProtocolException e) {
 					// TODO Auto-generated catch block
@@ -233,11 +233,11 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			    try {
-			        Thread.sleep(10000);         
-			    } catch (InterruptedException e) {
-			       e.printStackTrace();
-			    }
+				try {
+					Thread.sleep(10000);         
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 
 			}
 			return null;
@@ -261,13 +261,32 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 				map.clear();
 				allMarkersMap.clear();
 			}else{
-				MarkerOptions addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.postit)).anchor(0.3f, 0.3f);
+				MarkerOptions addedMarkerOptions;
+				switch (values[0].getColorNote()) {
+				case RED:
+					addedMarkerOptions= new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.red_note)).anchor(0.3f, 0.3f);
+					break;
+				case YELLOW:
+					addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.yellow_note)).anchor(0.3f, 0.3f);
+					break;
+				case BLUE:
+					addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_note)).anchor(0.3f, 0.3f);
+					break;
+				case GREEN:
+					addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.green_note)).anchor(0.3f, 0.3f);
+					break;
+				default:
+					addedMarkerOptions = new MarkerOptions().position(new LatLng(values[0].getLat(), values[0].getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_note)).anchor(0.3f, 0.3f);
+					break;
+				}
 				Marker addedMarker = map.addMarker(addedMarkerOptions);
 				allMarkersMap.put(addedMarker, values[0].getId());
+
+
 			}
 		}
 	}
-	
+
 	private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
 		@Override
 		public void onMyLocationChange(Location location) {
@@ -275,10 +294,10 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 			lat = location.getLatitude();
 			lon = location.getLongitude();
 			LatLng loc = new LatLng(lat, lon);
-	        if(map != null ){
-	        	//16f
-	            map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 6.0f));
-	        }
+			if(map != null ){
+				//16f
+				map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+			}
 		}
 	};
 
