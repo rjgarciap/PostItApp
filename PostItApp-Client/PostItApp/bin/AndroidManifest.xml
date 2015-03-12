@@ -4,7 +4,6 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="16" />
@@ -47,13 +46,18 @@
             android:name=".SuccessUploadActivity"
             android:label="@string/title_activity_success_upload" >
         </activity>
+
         <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
-    <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyDZhJbkCUZoRc3Uyu_Pm-5bHEpqzOCrcb8" />
-        
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDZhJbkCUZoRc3Uyu_Pm-5bHEpqzOCrcb8" />
+
+        <activity
+            android:name=".PostItShow"
+            android:label="@string/title_activity_post_it_show" >
+        </activity>
     </application>
 
 </manifest>

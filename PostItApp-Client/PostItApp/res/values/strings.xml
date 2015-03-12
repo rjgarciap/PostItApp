@@ -12,7 +12,10 @@
     <string name="ContentPostIt">Content</string>
     <string name="title_activity_success_upload">SuccessUploadActivity</string>
     <string name="SuccesfullyUploadedPostIt">You have successfully uploaded the note</string>
+
     <color name="BlueApp">#D9E9F4</color>
     <color name="YellowApp">#FFFAAE</color>
+
+    <string name="title_activity_post_it_show">PostItShow</string>
 
 </resources>

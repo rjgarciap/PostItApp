@@ -32,71 +32,71 @@ public class PostItUpload extends Activity{
 
 	HttpClient client;
 	ProgressDialog progressBar;
-	
+
 	EditText titleEditText;
 	EditText contentEditText;
 	Button sendButton;
 	AlertDialog alertDialog;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_it_upload);
-		
-		
-	    client = new DefaultHttpClient();
+
+
+		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
-        progressBar = new ProgressDialog(this);
-        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressBar.setMessage("Uploading...");
-		
+		progressBar = new ProgressDialog(this);
+		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressBar.setMessage("Uploading...");
+
 		titleEditText = (EditText) findViewById(R.id.titleText);
 		contentEditText = (EditText) findViewById(R.id.contentText);
 		sendButton = (Button) findViewById(R.id.sendButton);
-		
+
 		sendButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				String title = titleEditText.getText().toString();
 				String content = contentEditText.getText().toString();
-				
+
 				if (title.matches("") || content.matches("")) {
-				    Toast.makeText(getApplicationContext(), "You did not enter some field.", Toast.LENGTH_SHORT).show();
-				    return;
+					Toast.makeText(getApplicationContext(), "You did not enter some field.", Toast.LENGTH_SHORT).show();
+					return;
 				}
 				new PostNote().execute();
-				
-				
-				
+
+
+
 				alertDialog.setTitle("Note uploaded");
 				alertDialog.setMessage("Note has been successfully uploaded");
 				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-							//Finish activity
-							finish();
-						}
+						//Finish activity
+						finish();
+					}
 				});
 
-				
+
 			}
 		});
-		
-		
-		
+
+
+
 
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
- 
+
 	@Override    protected void onPause() {
 
-        super.onPause();        
-    }
+		super.onPause();        
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,27 +116,27 @@ public class PostItUpload extends Activity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
-	
+
+
+
 	private class PostNote extends AsyncTask<Void, Void, Boolean> {
-		 
-	    @Override
-	    protected Boolean doInBackground(Void... params) {
-			
-	    	HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/postnote");
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+
+			HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/postnote");
 			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-			
+
 			pairs.add(new BasicNameValuePair("title", titleEditText.getText().toString()));
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));
 			//Debemos obtener la latitud y longitud
 
 			Bundle extras = getIntent().getExtras();
-		    Double lat = extras.getDouble("lat");
-		    Double lon = extras.getDouble("long");
+			Double lat = extras.getDouble("lat");
+			Double lon = extras.getDouble("long");
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
 			pairs.add(new BasicNameValuePair("long", ""+lon));
-			
+
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
 			} catch (UnsupportedEncodingException e) {
@@ -145,7 +145,7 @@ public class PostItUpload extends Activity{
 			}
 			try {
 				HttpResponse response = client.execute(post);
-				
+
 				//Obtener respuesta
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
@@ -154,32 +154,26 @@ public class PostItUpload extends Activity{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        return true;
-	    }
-	 
-	    @Override
-	    protected void onPreExecute() {
+			return true;
+		}
+
+		@Override
+		protected void onPreExecute() {
 			progressBar.setCancelable(false);
 			progressBar.setMax(1);
 			progressBar.setTitle("Uploading a new Note");
 			progressBar.setProgress(0);
 			progressBar.show();
-	    }
-	 
-	    @Override
-	    protected void onPostExecute(Boolean result) {
-	        progressBar.dismiss();
-	        //Aqui comprobamos el resultado
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressBar.dismiss();
+			//Aqui comprobamos el resultado
 			alertDialog.show();
-	    }
-	 
+		}
+
 	}
 
 
-
-
-	
-	
-	
-	
 }
