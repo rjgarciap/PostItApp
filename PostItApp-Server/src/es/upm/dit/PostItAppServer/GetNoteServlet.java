@@ -1,7 +1,11 @@
 package es.upm.dit.PostItAppServer;
 
 import java.io.IOException;
+
 import javax.servlet.http.*;
+
+import com.google.gson.Gson;
+
 import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
 import es.upm.dit.PostItAppServer.dao.NoteDAO;
 import es.upm.dit.PostItAppServer.model.Note;
@@ -22,8 +26,9 @@ public class GetNoteServlet extends HttpServlet {
 		
 		resp.setContentType("application/json");
 		
+		String jsonNote = new Gson().toJson(note);
 		// OJO Habrá que añadir la geolocalización
-		resp.getWriter().println("{\"title\": \"" + note.getTitle() + "\", \"text\": \"" + note.getText() + "\"}");
+		resp.getWriter().println(jsonNote);
 		
 	}	
 }
