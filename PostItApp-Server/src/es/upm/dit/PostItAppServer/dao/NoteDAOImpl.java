@@ -3,6 +3,7 @@ package es.upm.dit.PostItAppServer.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.upm.dit.PostItAppServer.model.ColorNote;
 import es.upm.dit.PostItAppServer.model.Note;
 import es.upm.dit.PostItAppServer.dao.EMFService;
 
@@ -34,10 +35,10 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 
 	@Override
-	public void add(String title, String text, Double lat, Double lon) {
+	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
-			Note note = new Note(title, text, lat, lon);
+			Note note = new Note(title, text, lat, lon, colorNote);
 			em.persist(note);
 			em.close();
 		}

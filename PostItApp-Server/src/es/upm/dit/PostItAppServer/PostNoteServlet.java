@@ -1,9 +1,12 @@
 package es.upm.dit.PostItAppServer;
 
 import java.io.IOException;
+
 import javax.servlet.http.*;
+
 import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
 import es.upm.dit.PostItAppServer.dao.NoteDAO;
+import es.upm.dit.PostItAppServer.model.ColorNote;
 
 
 // IMPORTAR LOS PAQUETES DAO.
@@ -20,9 +23,10 @@ public class PostNoteServlet extends HttpServlet{
 		String text = checkNull(req.getParameter ("content"));
 		String lat = checkNull(req.getParameter("lat"));
 		String lon  = checkNull(req.getParameter("long"));
+		String colorNote  = checkNull(req.getParameter("colorNote"));
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
-		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon));
+		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon), ColorNote.valueOf(colorNote));
 		
 		//Habría que enviar un código de 200 ok o algo que haga que la app sepa que ha ido bien o no
 	

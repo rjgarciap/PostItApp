@@ -21,14 +21,16 @@ public class Note implements Serializable {
 	private String text;
 	private Double lat;
 	private Double lon;
+	private ColorNote colorNote;
 	
 	
-	public Note(String title, String text, Double lat, Double lon){
+	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote){
 		
 		this.title = title; 
 		this.text = text;
 		this.lat = lat;
 		this.lon = lon;
+		this.colorNote = colorNote;
 		
 	}
 	
@@ -47,6 +49,9 @@ public class Note implements Serializable {
 	public Double getLat(){
 		return lat;
 	}
+	public ColorNote getColorNote(){
+		return colorNote;
+	}
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -58,6 +63,9 @@ public class Note implements Serializable {
 	}
 	public void setLon(Double lon){
 		this.lon = lon;
+	}
+	public void setColorNote(ColorNote colorNote){
+		this.colorNote = colorNote;
 	}
 
 
