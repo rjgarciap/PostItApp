@@ -28,6 +28,30 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>GetNearNotesServlet</servlet-name>
 		<url-pattern>/getnearnotes</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteNoteServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.DeleteNoteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteNoteServlet</servlet-name>
+		<url-pattern>/deletenote</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>GetUserNotesServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.GetUserNotesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetUserNotesServlet</servlet-name>
+		<url-pattern>/getusernotes</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateNoteServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.UpdateNoteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateNoteServlet</servlet-name>
+		<url-pattern>/updatenote</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
