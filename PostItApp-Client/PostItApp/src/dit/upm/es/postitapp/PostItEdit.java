@@ -64,7 +64,43 @@ public class PostItEdit extends Activity {
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressBar.setMessage("Loading...");
-		new GetNote().execute();
+	
+		
+		Bundle extras = getIntent().getExtras();
+		Note note = (Note)extras.get("Note");
+		
+		titleEditText.setText(note.getTitle());
+		contentEditText.setText(note.getText());
+		
+		switch(note.getColorNote()){
+		case BLUE: {
+			radioGroupColors.check(R.id.colorNoteBlue);
+			break;						
+		}
+		case YELLOW: {
+			radioGroupColors.check(R.id.colorNoteYellow);
+			break;						
+		}
+		case RED: {
+			radioGroupColors.check(R.id.colorNoteRed);
+			break;						
+		}
+		case GREEN: {
+			radioGroupColors.check(R.id.colorNoteGreen);
+			break;						
+		}
+		default: {
+			radioGroupColors.check(R.id.colorNoteBlue);
+			break;
+		}
+			
+		}
+		
+		
+		
+		
+		
+		
 		sendButton.setOnClickListener(new View.OnClickListener() { 
 
 			@Override
@@ -84,8 +120,8 @@ public class PostItEdit extends Activity {
 
 
 
-				alertDialog.setTitle("Note uploaded");
-				alertDialog.setMessage("Note has been successfully uploaded");
+				alertDialog.setTitle("Note updated");
+				alertDialog.setMessage("Note has been successfully updated");
 				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						//Finish activity
@@ -140,7 +176,7 @@ public class PostItEdit extends Activity {
 		protected void onPreExecute() {
 			progressBar.setCancelable(false);
 			progressBar.setMax(1);
-			progressBar.setTitle("Uploading an edit Note");
+			progressBar.setTitle("Uploading an edited Note");
 			progressBar.setProgress(0);
 			progressBar.show();
 		}
@@ -201,66 +237,5 @@ public ColorNote getColorNote(int idxColor){
 		return super.onOptionsItemSelected(item);
 	}
 
-
-
-	private class GetNote extends AsyncTask<Void, Void, Note> {
-
-		@Override
-		protected Note doInBackground(Void... params) {
-
-			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-
-
-			Bundle extras = getIntent().getExtras();
-			Long idNote = extras.getLong("idNote");
-			
-			pairs.add(new BasicNameValuePair("id", ""+idNote));
-			
-			Log.i("IDNOTE", ""+idNote);
-			String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
-			HttpGet get = new HttpGet("http://1-dot-postitapp-server.appspot.com/getnote" + "?" + paramsString);
-
-			Note note = null;
-
-			try {
-				HttpResponse response = client.execute(get);
-				HttpEntity entity = response.getEntity();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(),"iso-8859-1"),8);
-				
-				String jsonResponse = reader.readLine();
-				Log.i("sa",jsonResponse);
-				Gson gson = new Gson();
-				note = gson.fromJson(jsonResponse, Note.class);
-				
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return note;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			progressBar.setCancelable(false);
-			progressBar.setMax(1);
-			progressBar.setTitle("Loading Note");
-			progressBar.setProgress(0);
-			progressBar.show();
-		}
-
-		@Override
-		protected void onPostExecute(Note result) {
-			progressBar.dismiss();
-			titleEditText.setText(result.getTitle());
-			contentEditText.setText(result.getText());
-			//radioGroupColors.set
-
-		}
-
-	}
 
 }

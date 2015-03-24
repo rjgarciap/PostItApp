@@ -23,7 +23,9 @@ import com.google.android.gms.internal.ra;
 import com.google.gson.Gson;
 
 
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,10 +47,11 @@ public class PostItShow extends Activity {
 	
 	HttpClient client;
 	ProgressDialog progressBar;
+	AlertDialog alertDialog;
 
 	Button editButton;
 	Button deleteButton;
-	boolean buttonvisibility = false;
+	boolean buttonvisibility = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,26 @@ public class PostItShow extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				pressGet();
+				pressEdit();
+			}
+			
+			
+		} );
+		
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				new DeleteNote().execute();
+				alertDialog.setTitle("Note deleted");
+				alertDialog.setMessage("Note has been successfully deleted");
+				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						//Finish activity
+						finish();
+					}
+				});
 			}
 			
 			
@@ -108,12 +130,14 @@ public class PostItShow extends Activity {
 	
 
 
-	public void pressGet(){
+	public void pressEdit(){
 		
 		Bundle extras = getIntent().getExtras();
 		Long idNote = extras.getLong("idNote");
+		Note note = (Note) extras.get("Note");
 		Intent i = new Intent(this,PostItEdit.class);
 		i.putExtra("idNote",idNote);
+		i.putExtra("Note", note);
 		Log.i("Hemos pasado el id a edit",""+idNote);
 		startActivity(i);
 	}
@@ -125,8 +149,9 @@ public class PostItShow extends Activity {
 
 			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 
-
+			
 			Bundle extras = getIntent().getExtras();
+			
 			Long idNote = extras.getLong("idNote");
 			
 			pairs.add(new BasicNameValuePair("id", ""+idNote));
@@ -173,6 +198,68 @@ public class PostItShow extends Activity {
 			titleTextView.setText(result.getTitle());
 			contentTextView.setText(result.getText());
 			// if(result.getuserId() == userId){buttonvisibility = true;}
+			Intent i = getIntent();
+			i.putExtra("Note", result);
+			
+
+		}
+
+	}
+	
+	private class DeleteNote extends AsyncTask<Void, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+
+			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+
+
+			Bundle extras = getIntent().getExtras();
+			Long idNote = extras.getLong("idNote");
+			
+			pairs.add(new BasicNameValuePair("id", ""+idNote));
+			
+			Log.i("IDNOTE", ""+idNote);
+			String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
+			HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/deletenote");
+
+			
+			try {
+				post.setEntity(new UrlEncodedFormEntity(pairs));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				HttpResponse response = client.execute(post);
+
+				//Obtener respuesta
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progressBar.setCancelable(false);
+			progressBar.setMax(1);
+			progressBar.setTitle("Deleting Note");
+			progressBar.setProgress(0);
+			progressBar.show();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressBar.dismiss();
+			//Aqui comprobamos el resultado
+			alertDialog.show();
+			
+			
 
 		}
 
