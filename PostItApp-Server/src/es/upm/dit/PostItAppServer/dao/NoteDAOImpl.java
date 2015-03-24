@@ -108,4 +108,15 @@ public class NoteDAOImpl implements NoteDAO {
 		return notes;
 	}
 	
+	@Override
+	public void editNote(long id, String title, String text,  ColorNote colorNote){
+		EntityManager em = EMFService.get().createEntityManager();
+		Query q = em.createQuery("update Note n set n.title = :title where n.id = :id");
+		//MIRAR PARA METER VARIOS CAMPOS EN MISMA NOTA
+		q.setParameter("title", title);
+		q.setParameter("id", id);
+		q.executeUpdate();
+		
+	}
+	
 }

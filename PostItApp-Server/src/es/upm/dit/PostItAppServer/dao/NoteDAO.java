@@ -14,5 +14,6 @@ public interface NoteDAO {
 	public Note getById(long id);
 	public List<Note> getNearNotes(Double lat, Double lon);
 	public List<Note> getUserNotes(String userId);
+	public void editNote(long id, String title, String text,  ColorNote colorNote);
 
 }

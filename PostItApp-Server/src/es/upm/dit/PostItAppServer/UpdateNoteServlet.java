@@ -19,18 +19,21 @@ public class UpdateNoteServlet extends HttpServlet {
 			throws IOException {
 		
 		// Recupero de la petición HTTP el id de la nota que quiere borrar el usuario
-		String id = req.getParameter("id");
+		//String id = req.getParameter("id");
+		String idNote = checkNull(req.getParameter("idNote"));
 		String title = checkNull(req.getParameter("title")); // Checks if the parameters are or not empty.
 		String text = checkNull(req.getParameter ("content"));
 		String colorNote  = checkNull(req.getParameter("colorNote"));
-		
+		ColorNote color = ColorNote.valueOf(colorNote);
+		long id = Long.parseLong(idNote);
+		//MIRAR
 		NoteDAO dao = NoteDAOImpl.getInstance();
+		dao.editNote(id, title, text, color);
+		//Note note = dao.getById(Long.parseLong(idNote));
 		
-		Note note = dao.getById(Long.parseLong(id));
-		
-		note.setText(title);
-		note.setText(text);
-		note.setColorNote(ColorNote.valueOf(colorNote));
+		//note.setText(title);
+		//note.setText(text);
+		//note.setColorNote(ColorNote.valueOf(colorNote));
 		
 	}
 	
