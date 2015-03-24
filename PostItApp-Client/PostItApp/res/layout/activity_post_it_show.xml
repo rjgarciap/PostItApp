@@ -31,17 +31,19 @@
     >
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/deleteButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="Borrar" />
 
     <Button
-        android:id="@+id/buttonEdit"
+        android:id="@+id/editButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="Editar" /> </LinearLayout>
 
 </LinearLayout>
