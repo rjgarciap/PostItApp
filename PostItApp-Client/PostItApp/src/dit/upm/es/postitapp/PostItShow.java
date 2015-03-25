@@ -19,6 +19,14 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphObject;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.internal.ra;
 import com.google.gson.Gson;
 
@@ -34,12 +42,15 @@ import android.widget.TextView;
 
 public class PostItShow extends Activity {
 
+	final Session session = Session.getActiveSession();
 	TextView titleTextView;
 	TextView contentTextView;
+	TextView authorNameNote;
 	
+	String authorNoteId;
 	HttpClient client;
 	ProgressDialog progressBar;
-
+	private ProfilePictureView profileAuthorPicture;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +58,9 @@ public class PostItShow extends Activity {
 		setContentView(R.layout.activity_post_it_show);
 		titleTextView = (TextView) findViewById(R.id.titleNote);
 		contentTextView = (TextView) findViewById(R.id.contentNote);
-
+		profileAuthorPicture = (ProfilePictureView)findViewById(R.id.profileAuthorPicture);
+		authorNameNote = (TextView)findViewById(R.id.authorNameNote);
+		
 		client = new DefaultHttpClient();
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -104,7 +117,11 @@ public class PostItShow extends Activity {
 				Log.i("sa",jsonResponse);
 				Gson gson = new Gson();
 				note = gson.fromJson(jsonResponse, Note.class);
+				authorNoteId = note.getUserId();
+
 				
+
+				//Request.newGraphPathRequest(session, graphPath, callback)
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,9 +144,32 @@ public class PostItShow extends Activity {
 
 		@Override
 		protected void onPostExecute(Note result) {
-			progressBar.dismiss();
+			
 			titleTextView.setText(result.getTitle());
 			contentTextView.setText(result.getText());
+			
+			
+			Bundle paramsF = new Bundle();
+			paramsF.putString("fields", "name");
+			Request request = new Request(session, authorNoteId,paramsF,HttpMethod.GET,new Request.Callback() {
+				
+				@Override
+				public void onCompleted(Response response) {
+					// TODO Auto-generated method stub
+					
+					FacebookRequestError error = response.getError();
+					if(error!=null){
+						Log.e("Error", error.getErrorMessage());
+						return;
+					}
+					
+					authorNameNote.setText((String) response.getGraphObject().getProperty("name"));
+					profileAuthorPicture.setProfileId(authorNoteId);
+					progressBar.dismiss();
+				}
+			});
+			
+			Request.executeBatchAsync(request);
 
 		}
 

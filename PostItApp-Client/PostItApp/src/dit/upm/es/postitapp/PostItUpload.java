@@ -167,8 +167,10 @@ public class PostItUpload extends Activity{
 			Bundle extras = getIntent().getExtras();
 			Double lat = extras.getDouble("lat");
 			Double lon = extras.getDouble("long");
+			String userId = extras.getString("userId");
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
 			pairs.add(new BasicNameValuePair("long", ""+lon));
+			pairs.add(new BasicNameValuePair("userId", ""+userId));
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			Log.i("ver color", colorNoteSelected.toString());
 			try {

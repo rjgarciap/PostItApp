@@ -19,5 +19,8 @@
     <color name="WhiteApp">#ffffff</color>
 
     <string name="title_activity_post_it_show">PostItShow</string>
+    <string name="app_id">342507042614756</string>
+    <string name="title_activity_prueba">Prueba</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>
