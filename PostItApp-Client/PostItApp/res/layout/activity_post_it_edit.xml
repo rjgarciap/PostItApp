@@ -1,0 +1,100 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BlueApp"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="dit.upm.es.postitapp.PostItUpload" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/TitlePostIt" />
+
+    <EditText
+        android:id="@+id/titleNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" >
+
+        <requestFocus android:layout_width="match_parent" />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/ContentPostIt" />
+
+    <EditText
+        android:id="@+id/contentNote"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/ColorPostIt" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupColorNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/colorNoteBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="50dp"
+            android:height="50dp"
+            android:button="@drawable/button_blue"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/colorNoteYellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="50dp"
+            android:height="50dp"
+            android:button="@drawable/button_yellow" />
+
+        <RadioButton
+            android:id="@+id/colorNoteRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="50dp"
+            android:height="50dp"
+            android:button="@drawable/button_red" />
+
+        <RadioButton
+            android:id="@+id/colorNoteGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="50dp"
+            android:height="50dp"
+            android:button="@drawable/button_green" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/SendButton" />
+
+</LinearLayout>
+

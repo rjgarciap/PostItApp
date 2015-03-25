@@ -23,4 +23,7 @@
     <string name="title_activity_prueba">Prueba</string>
     <string name="title_activity_login">LoginActivity</string>
 
+    <string name="title_activity_post_it_edit">PostItEdit</string>
+    
+
 </resources>

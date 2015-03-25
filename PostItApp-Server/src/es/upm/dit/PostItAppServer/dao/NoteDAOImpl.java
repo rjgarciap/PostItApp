@@ -35,10 +35,10 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 
 	@Override
-	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote) {
+	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
-			Note note = new Note(title, text, lat, lon, colorNote);
+			Note note = new Note(title, text, lat, lon, colorNote, userId);
 			em.persist(note);
 			em.close();
 		}
@@ -78,7 +78,7 @@ public class NoteDAOImpl implements NoteDAO {
 
 	@Override
 	public List<Note> getNearNotes(Double lat, Double lon) {
-		// TODO Auto-generated method stub
+		
 		Double latSup = lat+1;
 		Double latInf = lat-1;
 	
@@ -91,9 +91,34 @@ public class NoteDAOImpl implements NoteDAO {
 			notes = new ArrayList<Note>();
 		}
 		
+		return notes;
+	}
+	
+	@Override
+	public List<Note> getUserNotes(String userId) {
 
+		EntityManager em = EMFService.get().createEntityManager();
+		Query q = em.createQuery("select n from Note n where n.userId = :userId");
+		q.setParameter("userId", userId);
+		List<Note> notes= q.getResultList();
+		if(notes == null){
+			notes = new ArrayList<Note>();
+		}
 		
 		return notes;
 	}
-
+	
+	@Override
+	public void editNote(long id, String title, String text,  ColorNote colorNote){
+		EntityManager em = EMFService.get().createEntityManager();
+		Query q = em.createQuery("update Note n set n.title = :title, n.text = :text, n.colorNote =:colorNote where n.id = :id");
+		//MIRAR PARA METER VARIOS CAMPOS EN MISMA NOTA
+		q.setParameter("title", title);
+		q.setParameter("text", text);
+		q.setParameter("colorNote", colorNote);
+		q.setParameter("id", id);
+		q.executeUpdate();
+		
+	}
+	
 }
