@@ -22,9 +22,10 @@ public class PostNoteServlet extends HttpServlet{
 		String lon  = checkNull(req.getParameter("long"));
 		String colorNote  = checkNull(req.getParameter("colorNote"));
 		String userId  = checkNull(req.getParameter("userId"));
+		String imageId  = checkNull(req.getParameter("imageId"));
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
-		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon), ColorNote.valueOf(colorNote),userId);
+		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon), ColorNote.valueOf(colorNote), userId, imageId);
 		
 		//Habría que enviar un código de 200 ok o algo que haga que la app sepa que ha ido bien o no
 	
