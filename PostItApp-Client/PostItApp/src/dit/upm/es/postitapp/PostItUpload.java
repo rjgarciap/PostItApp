@@ -1,9 +1,13 @@
 package dit.upm.es.postitapp;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -14,10 +18,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.android.Utils;
+import com.google.android.gms.internal.cm;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -40,14 +52,20 @@ public class PostItUpload extends Activity{
 	Button sendButton;
 	AlertDialog alertDialog;
 	RadioGroup radioGroupColors;
+	ImageView imageCamera;
+	Cloudinary cloudinary;
+	Uri imageUri;
+	String imageCloudinaryURL;
+	
 	int idxColor;
 	ColorNote colorNoteSelected;
+	final int CAMERA_ACT = 0 ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_it_upload);
 
-
+		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
@@ -56,10 +74,12 @@ public class PostItUpload extends Activity{
 
 		titleEditText = (EditText) findViewById(R.id.titleText);
 		contentEditText = (EditText) findViewById(R.id.contentText);
+		imageCamera = (ImageView) findViewById(R.id.imageCamera);
 		sendButton = (Button) findViewById(R.id.sendButton);
 
-		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
 		
+		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
+
 		sendButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -97,13 +117,21 @@ public class PostItUpload extends Activity{
 
 	}
 
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
-	@Override    protected void onPause() {
+	public void openCamera(){
+		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(intent, CAMERA_ACT);
+	}
+
+
+	@Override    
+	protected void onPause() {
 
 		super.onPause();        
 	}
@@ -116,12 +144,28 @@ public class PostItUpload extends Activity{
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode==CAMERA_ACT && resultCode==RESULT_OK) {
+			Bitmap bp = (Bitmap) data.getExtras().get("data");
+			
+			imageCamera.setImageBitmap(bp);
+			
+			imageUri = data.getData();
+			
+			new UploadImage().execute();
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.camera) {
+			openCamera();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -129,7 +173,7 @@ public class PostItUpload extends Activity{
 
 
 	public ColorNote getColorNote(int idxColor){
-		
+
 		ColorNote result;
 		switch (idxColor) {
 		case 0:
@@ -172,6 +216,8 @@ public class PostItUpload extends Activity{
 			pairs.add(new BasicNameValuePair("long", ""+lon));
 			pairs.add(new BasicNameValuePair("userId", ""+userId));
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
+			pairs.add(new BasicNameValuePair("imageId", imageCloudinaryURL));
+			
 			Log.i("ver color", colorNoteSelected.toString());
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
@@ -207,11 +253,46 @@ public class PostItUpload extends Activity{
 			progressBar.dismiss();
 			//Aqui comprobamos el resultado
 			alertDialog.show();
-			
+
 
 		}
 
 	}
 
 
+
+	private class UploadImage extends AsyncTask<Void, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				InputStream in = getContentResolver().openInputStream(imageUri);
+				Map param = new HashMap<String, String>();
+				Map uploadResult= cloudinary.uploader().upload(in, param);
+				imageCloudinaryURL = (String) uploadResult.get("url");
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			
+
+		}
+
+	}
+	
 }

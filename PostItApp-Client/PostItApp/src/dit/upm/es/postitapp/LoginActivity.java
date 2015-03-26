@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class LoginActivity extends FragmentActivity {
 
@@ -112,10 +113,11 @@ public class LoginActivity extends FragmentActivity {
 		public void call(Session session, SessionState state,Exception exception) {
 			// TODO Auto-generated method stub
 			if (state.isOpened()) {
+				loginBtn.setVisibility(View.INVISIBLE);
 				String userId = session.getAccessToken();
 				startMain(userId);
 			} else if (state.isClosed()) {
-				Log.d("FacebookSampleActivity", "Facebook session closed");
+				loginBtn.setVisibility(View.VISIBLE);
 			}
 
 		}

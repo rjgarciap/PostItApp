@@ -188,10 +188,15 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	public void pressGet(Long id){
 		Intent i = new Intent(this,PostItShow.class);
 		i.putExtra("idNote",id);
-		Log.i("Sdf",""+id);
+		i.putExtra("userId", user_ID);
 		startActivity(i);
 	}
 
+	public void pressListNotes(){
+		Intent i = new Intent(this,ListNotesActivity.class);
+		i.putExtra("userId", user_ID);
+		startActivity(i);
+	}
 
 	public void pressLogout(){
 		Intent i = new Intent(this,LoginActivity.class);
@@ -388,6 +393,9 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 			long id) {
 		// TODO Auto-generated method stub
 		switch (position) {
+		case 2:
+			pressListNotes();
+			break;
 		case 3:
 			session.closeAndClearTokenInformation();
 			finish();

@@ -22,8 +22,9 @@
     <string name="app_id">342507042614756</string>
     <string name="title_activity_prueba">Prueba</string>
     <string name="title_activity_login">LoginActivity</string>
-
     <string name="title_activity_post_it_edit">PostItEdit</string>
-    
+    <string name="title_activity_list_notes">ListNotesActivity</string>
+    <string name="no_messages">There aren\'t any notes</string>
+    <string name="CameraButton">Add photo</string>
 
 </resources>

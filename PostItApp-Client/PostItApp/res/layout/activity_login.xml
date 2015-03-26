@@ -9,12 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="dit.upm.es.postitapp.Prueba" >
 
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="56dp"
+                android:src="@drawable/ic_launcher" />
+
             <com.facebook.widget.LoginButton
                 android:id="@+id/authButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/imageView1"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="156dp" />
+                android:layout_marginTop="92dp" />
 
 </RelativeLayout>
