@@ -89,6 +89,12 @@
             android:button="@drawable/button_green" />
     </RadioGroup>
 
+    <ImageView
+        android:id="@+id/imageCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background_gradient" />
+
     <Button
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"

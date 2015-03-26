@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class PostItEdit extends Activity {
 		Button sendButton = (Button) findViewById(R.id.sendButton);
 		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
 		client = new DefaultHttpClient();
+		alertDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressBar.setMessage("Loading...");
@@ -125,6 +127,13 @@ public class PostItEdit extends Activity {
 				alertDialog.setMessage("Note has been successfully updated");
 				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
+						String title = titleEditText.getText().toString();
+						String content = contentEditText.getText().toString();
+						Intent intent = new Intent();
+					    intent.putExtra("title",title);
+					    intent.putExtra("content",content);
+					    intent.putExtra("colorNote",colorNoteSelected);
+					    setResult(RESULT_OK, intent);
 						//Finish activity
 						finish();
 					}

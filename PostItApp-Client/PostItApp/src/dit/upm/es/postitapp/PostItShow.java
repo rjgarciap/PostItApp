@@ -55,6 +55,9 @@ public class PostItShow extends Activity {
 	TextView contentTextView;
 	TextView authorNameNote;
 
+	final int EDITNOTE_ACT = 123;
+	
+	String userNoteId;
 	String authorNoteId;
 	HttpClient client;
 	ProgressDialog progressBar;
@@ -65,7 +68,6 @@ public class PostItShow extends Activity {
 
 	Button editButton;
 	Button deleteButton;
-	boolean buttonvisibility = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,17 +82,17 @@ public class PostItShow extends Activity {
 		deleteButton = (Button) findViewById(R.id.deleteButton);
 
 		client = new DefaultHttpClient();
+		alertDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressBar.setMessage("Loading...");
+		Bundle extras = getIntent().getExtras();
+		userNoteId = extras.getString("userId");
+
+		
 		new GetNote().execute();
 
-		if (buttonvisibility = true){
-			// DEPENDE DEL USERID -- RELACIONAR CON FACEBOOK Y ESO...
-			// MIRAR EN GETNOTE ONPOSTEXECUTE
-			editButton.setVisibility(View.VISIBLE);
-			deleteButton.setVisibility(View.VISIBLE);
-		}
+
 
 		editButton.setOnClickListener(new View.OnClickListener() {
 
@@ -147,9 +149,23 @@ public class PostItShow extends Activity {
 		i.putExtra("idNote",idNote);
 		i.putExtra("Note", note);
 		Log.i("Hemos pasado el id a edit",""+idNote);
-		startActivity(i);
+		startActivityForResult(i, EDITNOTE_ACT);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+	
+
+	      if (requestCode==EDITNOTE_ACT && resultCode==RESULT_OK) {
+	    	   titleTextView.setText(data.getExtras().getString("title"));
+	           contentTextView.setText(data.getExtras().getString("content"));
+	           //data.getExtras().get("colorNote");
+	      }
+	
+	}
+	
 	private class GetNote extends AsyncTask<Void, Void, Note> {
 
 		@Override
@@ -221,11 +237,20 @@ public class PostItShow extends Activity {
 
 					authorNameNote.setText((String) response.getGraphObject().getProperty("name"));
 					profileAuthorPicture.setProfileId(authorNoteId);
+					Log.i("Author",authorNoteId);
+					Log.i("HECTOR", userNoteId);
+					if (authorNoteId.equals(userNoteId)){
+						editButton.setVisibility(View.VISIBLE);
+						deleteButton.setVisibility(View.VISIBLE);
+					}else{
+						editButton.setVisibility(View.INVISIBLE);
+						deleteButton.setVisibility(View.INVISIBLE);
+					}
+					
 					progressBar.dismiss();
 				}
 			});
 			Request.executeBatchAsync(request);
-			// if(result.getuserId() == userId){buttonvisibility = true;}
 			Intent i = getIntent();
 			i.putExtra("Note", result);
 

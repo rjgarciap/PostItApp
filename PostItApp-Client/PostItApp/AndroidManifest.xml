@@ -51,6 +51,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://761674397358161:0tAPX54sdt7KiYELO9Hh-7uHmMg@postitapp" />
 
         <activity
             android:name=".PostItShow"
@@ -71,6 +74,10 @@
         <activity
             android:name=".PostItEdit"
             android:label="@string/title_activity_post_it_edit" >
+        </activity>
+        <activity
+            android:name=".ListNotesActivity"
+            android:label="@string/title_activity_list_notes" >
         </activity>
     </application>
 
