@@ -8,6 +8,7 @@ import es.upm.dit.PostItAppServer.model.Note;
 import es.upm.dit.PostItAppServer.dao.EMFService;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 
@@ -109,15 +110,25 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 	
 	@Override
-	public void editNote(long id, String title, String text,  ColorNote colorNote){
+	public void editNote(long id, String title, String text,  ColorNote colorNote, String imageId){
+
 		EntityManager em = EMFService.get().createEntityManager();
-		Query q = em.createQuery("update Note n set n.title = :title, n.text = :text, n.colorNote =:colorNote where n.id = :id");
-		//MIRAR PARA METER VARIOS CAMPOS EN MISMA NOTA
-		q.setParameter("title", title);
-		q.setParameter("text", text);
-		q.setParameter("colorNote", colorNote);
-		q.setParameter("id", id);
-		q.executeUpdate();
+
+		EntityTransaction tx = em.getTransaction();
+		try {
+		        tx.begin();
+		        Note note = em.find(Note.class, id);
+		        note.setTitle(title);
+		        note.setText(text);
+		        note.setColorNote(colorNote);
+		        note.setImageId(imageId);
+		        em.persist(note);
+		        tx.commit();
+		} finally {
+		        if (tx.isActive()) {
+		                tx.rollback();
+		        }
+		}
 		
 	}
 	
