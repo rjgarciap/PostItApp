@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +23,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.android.Utils;
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -37,12 +43,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
@@ -56,7 +65,7 @@ public class PostItShow extends Activity {
 	TextView authorNameNote;
 
 	final int EDITNOTE_ACT = 123;
-	
+
 	String userNoteId;
 	String authorNoteId;
 	HttpClient client;
@@ -68,7 +77,13 @@ public class PostItShow extends Activity {
 
 	Button editButton;
 	Button deleteButton;
+	Cloudinary cloudinary;
+	ImageView imageNote;
 
+	Bitmap bmp;
+
+	String imageId;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +96,9 @@ public class PostItShow extends Activity {
 		editButton = (Button) findViewById(R.id.editButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
 
+		imageNote = (ImageView) findViewById(R.id.imageNote);
+
+		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
@@ -89,8 +107,8 @@ public class PostItShow extends Activity {
 		Bundle extras = getIntent().getExtras();
 		userNoteId = extras.getString("userId");
 
+
 		
-		new GetNote().execute();
 
 
 
@@ -120,6 +138,18 @@ public class PostItShow extends Activity {
 			}
 		} );
 
+		new GetNote().execute();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(bmp!=null){
+			bmp.recycle();
+			bmp=null;
+			
+		}
 	}
 
 	@Override
@@ -148,7 +178,7 @@ public class PostItShow extends Activity {
 		Intent i = new Intent(this,PostItEdit.class);
 		i.putExtra("idNote",idNote);
 		i.putExtra("Note", note);
-		Log.i("Hemos pasado el id a edit",""+idNote);
+		finish();
 		startActivityForResult(i, EDITNOTE_ACT);
 	}
 
@@ -156,16 +186,16 @@ public class PostItShow extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-	
 
-	      if (requestCode==EDITNOTE_ACT && resultCode==RESULT_OK) {
-	    	   titleTextView.setText(data.getExtras().getString("title"));
-	           contentTextView.setText(data.getExtras().getString("content"));
-	           //data.getExtras().get("colorNote");
-	      }
-	
+
+		if (requestCode==EDITNOTE_ACT && resultCode==RESULT_OK) {
+			titleTextView.setText(data.getExtras().getString("title"));
+			contentTextView.setText(data.getExtras().getString("content"));
+			//data.getExtras().get("colorNote");
+		}
+
 	}
-	
+
 	private class GetNote extends AsyncTask<Void, Void, Note> {
 
 		@Override
@@ -194,7 +224,12 @@ public class PostItShow extends Activity {
 				note = gson.fromJson(jsonResponse, Note.class);
 				authorNoteId = note.getUserId();
 
-
+				imageId =note.getImageId();
+				
+				if(imageId!= ""){
+					URL urlImage =new URL(cloudinary.url().generate(note.getImageId()));
+					bmp = BitmapFactory.decodeStream(urlImage.openConnection().getInputStream());
+				}
 
 				//Request.newGraphPathRequest(session, graphPath, callback)
 			} catch (ClientProtocolException e) {
@@ -219,8 +254,7 @@ public class PostItShow extends Activity {
 
 		@Override
 		protected void onPostExecute(Note result) {
-			titleTextView.setText(result.getTitle());
-			contentTextView.setText(result.getText());
+
 
 			Bundle paramsF = new Bundle();
 			paramsF.putString("fields", "name");
@@ -237,8 +271,6 @@ public class PostItShow extends Activity {
 
 					authorNameNote.setText((String) response.getGraphObject().getProperty("name"));
 					profileAuthorPicture.setProfileId(authorNoteId);
-					Log.i("Author",authorNoteId);
-					Log.i("HECTOR", userNoteId);
 					if (authorNoteId.equals(userNoteId)){
 						editButton.setVisibility(View.VISIBLE);
 						deleteButton.setVisibility(View.VISIBLE);
@@ -246,7 +278,7 @@ public class PostItShow extends Activity {
 						editButton.setVisibility(View.INVISIBLE);
 						deleteButton.setVisibility(View.INVISIBLE);
 					}
-					
+
 					progressBar.dismiss();
 				}
 			});
@@ -254,7 +286,18 @@ public class PostItShow extends Activity {
 			Intent i = getIntent();
 			i.putExtra("Note", result);
 
+			titleTextView.setText(result.getTitle());
+			contentTextView.setText(result.getText());
+			if(result.getImageId()!=""){
+				imageNote.setImageBitmap(bmp);
+				imageNote.setVisibility(View.VISIBLE);
+			}
+
+
+
 		}
+
+
 
 	}
 	private class DeleteNote extends AsyncTask<Void, Void, Boolean> {
@@ -269,10 +312,19 @@ public class PostItShow extends Activity {
 			Long idNote = extras.getLong("idNote");
 
 			pairs.add(new BasicNameValuePair("id", ""+idNote));
-			Log.i("IDNOTE", ""+idNote);
 			String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
 			HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/deletenote");
-
+			
+			try {
+				if(imageId!=""){
+					Map probando = cloudinary.uploader().destroy(imageId, null);
+					Log.i("ads",probando.toString());
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
 			} catch (UnsupportedEncodingException e) {

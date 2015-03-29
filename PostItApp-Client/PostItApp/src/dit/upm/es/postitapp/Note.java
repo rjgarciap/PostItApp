@@ -15,15 +15,16 @@ public class Note implements Serializable {
 	private Double lon;
 	private ColorNote colorNote;
 	private String userId;
+	private String imageId;
 	
-	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId){
+	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, String imageId){
 		
 		this.title = title; 
 		this.text = text;
 		this.lat = lat;
 		this.lon = lon;
 		this.colorNote = colorNote;
-		
+		this.imageId = imageId;
 	}
 	
 	public Long getId(){
@@ -47,6 +48,9 @@ public class Note implements Serializable {
 	public String getUserId(){
 		return userId;
 	}
+	public String getImageId(){
+		return imageId;
+	}
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -64,6 +68,9 @@ public class Note implements Serializable {
 	}
 	public void setUserId(String userId){
 		this.userId = userId;
+	}
+	public void setImageId(String imageId){
+		this.imageId = imageId;
 	}
 
 

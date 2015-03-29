@@ -29,10 +29,10 @@
             android:id="@+id/authorNameNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" 
-            android:layout_gravity="center_vertical"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
@@ -49,28 +49,35 @@
         android:layout_height="wrap_content"
         android:text="" />
 
+    <ImageView
+        android:id="@+id/imageNote"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
-    <Button
-        android:id="@+id/deleteButton"
-        style="?android:attr/buttonStyleSmall"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:text="Borrar" />
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal" >
 
+        <Button
+            android:id="@+id/deleteButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Borrar"
+            android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/editButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:text="Editar" /> </LinearLayout>
-
+        <Button
+            android:id="@+id/editButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:visibility="invisible" />
+    </LinearLayout>
 
 </LinearLayout>

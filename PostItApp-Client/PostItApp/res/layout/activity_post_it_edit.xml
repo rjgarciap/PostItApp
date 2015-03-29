@@ -1,4 +1,4 @@
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,8 +14,8 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/TitlePostIt" />
+        android:text="@string/TitlePostIt"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/titleNote"
@@ -31,8 +31,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/ContentPostIt" />
+        android:text="@string/ContentPostIt"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/contentNote"
@@ -45,49 +45,81 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/ColorPostIt" />
+        android:text="@string/ColorPostIt"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/radioGroupColorNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal" >
 
         <RadioButton
             android:id="@+id/colorNoteBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="50dp"
-            android:height="50dp"
             android:button="@drawable/button_blue"
-            android:checked="true" />
+            android:checked="true"
+            android:height="50dp"
+            android:width="50dp" />
 
         <RadioButton
             android:id="@+id/colorNoteYellow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="50dp"
+            android:button="@drawable/button_yellow"
             android:height="50dp"
-            android:button="@drawable/button_yellow" />
+            android:width="50dp" />
 
         <RadioButton
             android:id="@+id/colorNoteRed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="50dp"
+            android:button="@drawable/button_red"
             android:height="50dp"
-            android:button="@drawable/button_red" />
+            android:width="50dp" />
 
         <RadioButton
             android:id="@+id/colorNoteGreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="50dp"
+            android:button="@drawable/button_green"
             android:height="50dp"
-            android:button="@drawable/button_green" />
+            android:width="50dp" />
     </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" >
+
+        <ImageView
+            android:id="@+id/imageCamera"
+            android:layout_width="100sp"
+            android:layout_height="75sp" />
+
+        <ImageButton
+            android:id="@+id/changeImage"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:paddingLeft="10dp"        
+            android:layout_alignBottom="@+id/imageCamera"
+            android:layout_alignLeft="@+id/imageCamera"
+            android:background="@android:drawable/ic_menu_rotate"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/deleteImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/imageCamera"
+            android:layout_alignRight="@+id/imageCamera"
+            android:background="@android:drawable/ic_delete"
+            android:paddingLeft="10dp"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/sendButton"
@@ -97,4 +129,3 @@
         android:text="@string/SendButton" />
 
 </LinearLayout>
-

@@ -104,7 +104,6 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		mDrawerOptions = (ListView) findViewById(R.id.left_drawer);
 		mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-		items.add(new ItemNavigationDrawer("android:drawable/ic_menu_cc", "Contactos"));
 		items.add(new ItemNavigationDrawer("android:drawable/ic_menu_archive", "Mis notas"));
 		items.add(new ItemNavigationDrawer("drawable/exit_icon", "Salir"));
 
@@ -201,6 +200,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	public void pressLogout(){
 		Intent i = new Intent(this,LoginActivity.class);
 		startActivity(i);
+		finish();
 	}
 
 	@Override
@@ -393,10 +393,10 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 			long id) {
 		// TODO Auto-generated method stub
 		switch (position) {
-		case 2:
+		case 1:
 			pressListNotes();
 			break;
-		case 3:
+		case 2:
 			session.closeAndClearTokenInformation();
 			finish();
 			break;

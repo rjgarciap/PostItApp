@@ -25,9 +25,12 @@ import com.google.android.gms.internal.cm;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -55,7 +59,11 @@ public class PostItUpload extends Activity{
 	ImageView imageCamera;
 	Cloudinary cloudinary;
 	Uri imageUri;
-	String imageCloudinaryURL;
+	String imageCloudinaryURL="";
+	
+	ImageButton deleteImageButton;
+	ImageButton changeImageButton;
+	Bitmap bp;
 	
 	int idxColor;
 	ColorNote colorNoteSelected;
@@ -77,6 +85,8 @@ public class PostItUpload extends Activity{
 		imageCamera = (ImageView) findViewById(R.id.imageCamera);
 		sendButton = (Button) findViewById(R.id.sendButton);
 
+		deleteImageButton = (ImageButton) findViewById(R.id.deleteImage);
+		changeImageButton = (ImageButton) findViewById(R.id.changeImage);
 		
 		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
 
@@ -113,8 +123,27 @@ public class PostItUpload extends Activity{
 		});
 
 
+		deleteImageButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				imageUri = null;
+				imageCamera.setImageBitmap(null);
+				deleteImageButton.setVisibility(View.GONE);
+				changeImageButton.setVisibility(View.GONE);
+			}
+		});
 
-
+		changeImageButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				openCamera();
+			}
+		});
+		
 	}
 
 
@@ -122,9 +151,45 @@ public class PostItUpload extends Activity{
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		if(imageCamera.getDrawable() != null){
+			deleteImageButton.setVisibility(View.VISIBLE);
+			changeImageButton.setVisibility(View.VISIBLE);
+			imageCamera.setVisibility(View.VISIBLE);
+		}else{
+			Log.i("asd","");
+			deleteImageButton.setVisibility(View.GONE);
+			changeImageButton.setVisibility(View.GONE);
+			imageCamera.setVisibility(View.GONE);
+		}
 	}
 
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(bp != null){
+			bp.recycle();
+			bp=null;
+		}
+	}
+	
 	public void openCamera(){
+		 // Check if there is a camera.
+	    Context context = this;
+	    PackageManager packageManager = context.getPackageManager();
+	    if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false){
+	        Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT)
+	                .show();
+	        return;
+	    }
+		
 		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent, CAMERA_ACT);
 	}
@@ -147,14 +212,32 @@ public class PostItUpload extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		InputStream stream = null;
 		if (requestCode==CAMERA_ACT && resultCode==RESULT_OK) {
-			Bitmap bp = (Bitmap) data.getExtras().get("data");
 			
-			imageCamera.setImageBitmap(bp);
-			
-			imageUri = data.getData();
-			
-			new UploadImage().execute();
+			 // recyle unused bitmaps
+	        if (bp != null) {
+	          bp.recycle();
+	        }
+	        try {
+				stream = getContentResolver().openInputStream(data.getData());
+				 bp = BitmapFactory.decodeStream(stream);
+				 imageCamera.setImageBitmap(bp);
+				 imageUri = data.getData();
+	        } catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+		            if (stream != null)
+		              try {
+		                stream.close();
+		              } catch (IOException e) {
+		                e.printStackTrace();
+		              }
+		          }
+		      
+		
+	       
 		}
 	}
 
@@ -206,8 +289,25 @@ public class PostItUpload extends Activity{
 
 			pairs.add(new BasicNameValuePair("title", titleEditText.getText().toString()));
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));
-			//Debemos obtener la latitud y longitud
 
+			InputStream in;
+			try {
+				
+				if(imageUri != null){
+					in = getContentResolver().openInputStream(imageUri);
+					Map param = new HashMap<String, String>();
+					Map uploadResult= cloudinary.uploader().upload(in, param);
+					imageCloudinaryURL = (String) uploadResult.get("public_id");
+				}
+				
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			Bundle extras = getIntent().getExtras();
 			Double lat = extras.getDouble("lat");
 			Double lon = extras.getDouble("long");
@@ -218,7 +318,7 @@ public class PostItUpload extends Activity{
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			pairs.add(new BasicNameValuePair("imageId", imageCloudinaryURL));
 			
-			Log.i("ver color", colorNoteSelected.toString());
+			
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
 			} catch (UnsupportedEncodingException e) {
@@ -261,38 +361,4 @@ public class PostItUpload extends Activity{
 
 
 
-	private class UploadImage extends AsyncTask<Void, Void, Boolean> {
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			try {
-				InputStream in = getContentResolver().openInputStream(imageUri);
-				Map param = new HashMap<String, String>();
-				Map uploadResult= cloudinary.uploader().upload(in, param);
-				imageCloudinaryURL = (String) uploadResult.get("url");
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			return true;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			
-
-		}
-
-	}
-	
 }
