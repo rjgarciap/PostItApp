@@ -22,7 +22,7 @@ public class PostNoteServlet extends HttpServlet{
 		String lon  = checkNull(req.getParameter("long"));
 		String colorNote  = checkNull(req.getParameter("colorNote"));
 		String userId  = checkNull(req.getParameter("userId"));
-		String imageId  = checkNull(req.getParameter("imageId"));
+		String imageId  = req.getParameter("imageId");
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
 		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon), ColorNote.valueOf(colorNote), userId, imageId);
