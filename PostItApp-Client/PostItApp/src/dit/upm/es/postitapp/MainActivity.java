@@ -38,9 +38,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -54,6 +56,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity  implements OnMapClickListener, OnMarkerClickListener, OnItemClickListener{
 
@@ -85,8 +88,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		setContentView(R.layout.activity_main);
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-
-
+		
 		map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 		map.setMyLocationEnabled(true);
@@ -277,7 +279,6 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 				//Debemos obtener la latitud y longitud
 
-
 				pairs.add(new BasicNameValuePair("lat", ""+lat));
 				pairs.add(new BasicNameValuePair("long", ""+lon));
 
@@ -406,4 +407,29 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		}
 
 	}
+	
+	@Override
+	public void onBackPressed() {
+	   Log.d("CDA", "onBackPressed Called");
+	   Intent setIntent = new Intent(Intent.ACTION_MAIN);
+	   setIntent.addCategory(Intent.CATEGORY_HOME);
+	   setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	   startActivity(setIntent);
+	}
+	
+	/**
+	 * This method check mobile is connected to network.
+	 * @param context
+	 * @return true if connected otherwise false.
+	 */
+	public static boolean isNetworkAvailable(Context context) {
+	    ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
+	        return true;
+	    else
+	        return false;
+	}
+	
+	
+	
 }

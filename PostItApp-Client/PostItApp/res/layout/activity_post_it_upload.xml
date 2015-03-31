@@ -93,39 +93,43 @@
         android:id="@+id/RelativeLayout01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp" >
 
         <ImageView
             android:id="@+id/imageCamera"
             android:layout_width="100sp"
             android:layout_height="75sp" />
+
         <ImageButton
             android:id="@+id/changeImage"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:paddingLeft="10dp"        
             android:layout_alignBottom="@+id/imageCamera"
             android:layout_alignLeft="@+id/imageCamera"
             android:background="@android:drawable/ic_menu_rotate"
+            android:paddingLeft="10dp"
             android:visibility="invisible" />
 
         <ImageButton
             android:id="@+id/deleteImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:paddingLeft="10dp"        
             android:layout_alignBottom="@+id/imageCamera"
             android:layout_alignRight="@+id/imageCamera"
             android:background="@android:drawable/ic_delete"
+            android:paddingLeft="10dp"
             android:visibility="invisible" />
-
     </RelativeLayout>
 
     <Button
         android:id="@+id/sendButton"
+        style="@style/button_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/mybutton"
+        android:drawableLeft="@android:drawable/ic_menu_send"
         android:text="@string/SendButton" />
 
 </LinearLayout>

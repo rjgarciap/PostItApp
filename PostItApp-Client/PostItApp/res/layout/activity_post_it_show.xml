@@ -53,31 +53,36 @@
         android:id="@+id/imageNote"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:visibility="gone"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal" >
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/deleteButton"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/mybutton"
+            android:drawableLeft="@drawable/basics"
             android:text="Borrar"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/editButton"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/mybutton"
+            android:drawableLeft="@drawable/edit_ic"
             android:text="Editar"
-            android:visibility="invisible" />
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>
