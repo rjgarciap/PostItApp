@@ -7,4 +7,20 @@
 <!DOCTYPE html>
 <html>
 
+<table>
+			<tr>
+				<th>Nombre de Usuario</th>
+				<%-- PODEMOS AÑADIR POR EJEMPLO FECHA DE ULTIMA CREACIÓN DE NOTA O NUM DE NOTAS.. --%>
+				
+			</tr>
+	
+			<c:forEach items="${notes}" var="note">
+				<tr>
+					<td><c:out value="${note.userName}" /></td>
+					
+					
+				</tr>
+			</c:forEach>
+		</table>
+
 </html>

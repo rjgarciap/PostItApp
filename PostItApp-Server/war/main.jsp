@@ -13,32 +13,40 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<meta charset="utf-8">
 	</head>
+	
 	<body>
 	
-	<button type="submit" id="ShowNotes">Mostrar todas las notas</button>
-	<button type="submit" id="ReportedNotes">Mostrar notas reportadas</button>
-	<button type="submit" id="ShowUsers">Mostrar todos los usuarios</button>
+<div id='cssmenu'>
+<ul>
+   <li><a href='main.jsp'><span>Home</span></a></li>
+   <li class='active has-sub'><a href='main.jsp'><span>Management</span></a>
+      <ul>
+         <li class='has-sub'><a href='/show'><span>Show Notes</span></a>
+            <ul>
+               <li><a href='#'><span>hola</span></a></li>
+               <li class='last'><a href='#'><span>Sub Product</span></a></li>
+            </ul>
+         </li>
+         <li class='has-sub'><a href='/login'><span>Show Reported Notes</span></a>
+         </li>
+         <li class='has-sub'><a href='#'><span>Show Users</span></a>
+         </li>
+      </ul>
+   </li>
+   <li><a href='#'><span>About</span></a></li>
+   <li class='last'><a href='#'><span>Help</span></a></li>
+</ul>
+</div>
+
+	<div id="fondo">
+	<img alt="" src="/images/logo.png">
+	
+	</div>
+	
 	
 	
 	
 
-<script type="text/javascript">
-    document.getElementById("ShowNotes").onclick = function () {
-        location.href = "RUTA PARA PODER VER LAS NOTAS";
-    };
-</script>
-
-<script type="text/javascript">
-    document.getElementById("ReportedNotes").onclick = function () {
-        location.href = "RUTA PARA PODER VER LAS NOTAS REPORTADAS";
-    };
-</script>
-
-<script type="text/javascript">
-    document.getElementById("ShowUsers").onclick = function () {
-        location.href = "RUTA PARA PODER VER LOS USUARIOS";
-    };
-</script>
 		
 	</body>
 </html>
