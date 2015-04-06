@@ -39,7 +39,8 @@
 						<div class = "background">
 							<div class ="login" >
 								<p>Por favor, introduzca sus credenciales para acceder.</p>
-								
+									
+									
 								
 								<form action="/login" method="post"> 
 								
@@ -51,6 +52,11 @@
 								<input type="password" id="password" name="password" placeholder="Contraseña" />
 								<br>
 								<button type="submit">Enviar</button>
+								
+								<c:if test="${alerta == true }">
+									<p id="alerta">*Valor de usuario o contraseña incorrecto</p>
+									
+									</c:if>
 							  	
 							  
 								 </form>

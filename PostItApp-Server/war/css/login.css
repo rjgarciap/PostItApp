@@ -165,6 +165,10 @@ input{
     width: 50%;
 }
 
+#alerta{
+	color: red;
+}
+
 div.footercontainer {
     height: 80px;
     text-align: center;
