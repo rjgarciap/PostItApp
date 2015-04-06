@@ -14,9 +14,9 @@
 				
 			</tr>
 	
-			<c:forEach items="${notes}" var="note">
+			<c:forEach items="${users}" var="user">
 				<tr>
-					<td><c:out value="${note.userName}" /></td>
+					<td><c:out value="${user}" /></td>
 					
 					
 				</tr>

@@ -31,12 +31,11 @@ private static final long serialVersionUID = 1L;
 		if (name.equals("admin")&&password.equals("admin") ){
 			System.out.println("Entramos en if");
 			
-			//resp.sendRedirect("/");
-			//req.getSession().setAttribute("name", name);
 			
-			//req.setAttribute(name, "hola");
+			
+			
 			System.out.println("Enviamos peticion");
-			
+			req.getSession().setAttribute("alerta", false);	
 			RequestDispatcher view = req.getRequestDispatcher("main.jsp");
 			try {
 				view.forward(req, resp);
@@ -47,13 +46,24 @@ private static final long serialVersionUID = 1L;
 		}	else{
 			
 			if(name.equals("")){
+				req.getSession().setAttribute("alerta", false);	
 				
+			}else{
 				
+				req.getSession().setAttribute("alerta", true);	
 			}
 			
 			
 			System.out.println("Entramos en else");
-			resp.sendRedirect("/");
+			
+			RequestDispatcher view = req.getRequestDispatcher("login.jsp");
+			try {
+				view.forward(req, resp);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		

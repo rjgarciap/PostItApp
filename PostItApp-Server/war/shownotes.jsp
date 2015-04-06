@@ -16,16 +16,19 @@
 				<th>Localización</th>
 				
 			</tr>
-	
+			
+			
+			
 			<c:forEach items="${notes}" var="note">
 				<tr>
-					<td><c:out value="${note.UserId}" /></td>
+					<td><c:out value="${note.userId}" /></td>
 					<td><c:out value="${note.title}"/></td>
 					<td><c:out value="${note.text}" /></td>
-					<td><c:out value="${note.lat},"+"${note.lon}" /></td>
+					<td><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></td>
 				
 				</tr>
 			</c:forEach>
+			
 		</table>
 </body>
 

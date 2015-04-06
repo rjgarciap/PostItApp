@@ -24,25 +24,22 @@ private static final long serialVersionUID = 1L;
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
-		System.out.println("ENTRAMOS");
+
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
-		System.out.println("HASTA AQUÍ BIEN");
-		//UserService userService = UserServiceFactory.getUserService();
-		//User user = userService.getCurrentUser();
+	
 		
-		//String url = userService.createLoginURL(req.getRequestURI());
-		//String urlLinktext = "Login";
+	
 		
 		List<Note> notes = new ArrayList<Note>();
 		notes = dao.listNotes();
 		System.out.println(""+notes.size());
 		
-		//req.getSession().setAttribute("user", user);
-		req.getSession().setAttribute("notes", new ArrayList<Note>(notes));
-		//req.getSession().setAttribute("url", url);
-		//req.getSession().setAttribute("urlLinktext", urlLinktext);
 		
+		req.getSession().setAttribute("notes", new ArrayList<Note>(notes));
+		
+
+	
 		
 		RequestDispatcher view = req.getRequestDispatcher("shownotes.jsp");
 		view.forward(req, resp);
