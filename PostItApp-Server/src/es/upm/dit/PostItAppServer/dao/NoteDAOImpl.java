@@ -28,9 +28,13 @@ public class NoteDAOImpl implements NoteDAO {
 	@Override
 	public List<Note> listNotes() {
 		EntityManager em = EMFService.get().createEntityManager();
-		//HABRA QUE HACER UNA CONSULTA MAS RARA
-		Query q = em.createQuery("select n from Notes n");
-		List<Note> notes = q.getResultList();
+	
+		Query q = em.createQuery("select n from Note n");
+	
+		List<Note> notes= q.getResultList();
+		if(notes == null){
+			notes = new ArrayList<Note>();
+		}
 		
 		return notes;
 	}
@@ -129,6 +133,24 @@ public class NoteDAOImpl implements NoteDAO {
 		                tx.rollback();
 		        }
 		}
+		
+	}
+	
+	
+	
+	public List<String> getUsers(){
+		
+		EntityManager em = EMFService.get().createEntityManager();
+		
+		Query q = em.createQuery("select distinct n.userId from Note n");
+	
+		List<String> users= q.getResultList();
+		if(users == null){
+			users = new ArrayList<String>();
+		}
+		
+		return users;
+		
 		
 	}
 	
