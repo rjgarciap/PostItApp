@@ -38,16 +38,22 @@ aside{
 	
 	
     width: 280px;
+    height: 500px;
     float: left;
     margin-right: 10px;
-     margin-left: 10%;
+    margin-left: 10%;
     
 
    
 }
 
-  
-}
+#mapa{
+	
+	float: left;
+	width:120%;
+	height: 120%;
+}  
+
 #imagen{
 	
 	width: 50%;
@@ -55,6 +61,7 @@ aside{
 
 
 }
+
 
 section{
 	
@@ -215,7 +222,10 @@ button:hover {
 
     #movimiento {
    
-
+	position:absolute;
+	top:30%;
+	left:10%;
+	
     -webkit-animation: cssAnimation 3.4479s 1 ease;
     -moz-animation: cssAnimation 3.4479s 1 ease;
     -o-animation: cssAnimation 3.4479s 1 ease;

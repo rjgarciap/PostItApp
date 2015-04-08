@@ -10,6 +10,7 @@ import es.upm.dit.PostItAppServer.dao.NoteDAO;
 import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
 
 
+
 public class DeleteNoteServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,15 @@ public class DeleteNoteServlet extends HttpServlet {
 		
 		dao.remove(Long.parseLong(id));
 		
+	}
+	
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+		String id = req.getParameter("id");
+		NoteDAO dao = NoteDAOImpl.getInstance();
+		dao.remove(Long.parseLong(id));
+		resp.sendRedirect("/showNotes");
+	
 	}
 	
 }

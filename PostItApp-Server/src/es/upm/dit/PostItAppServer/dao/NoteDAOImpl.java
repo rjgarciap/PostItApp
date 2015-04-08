@@ -67,9 +67,6 @@ public class NoteDAOImpl implements NoteDAO {
 	public Note getById(long id) {
 		
 		EntityManager em = EMFService.get().createEntityManager();
-		//Query q = em.createQuery("select n from Notes n where n.id =:id");
-		//Note note = (Note) q.getSingleResult();
-		//return note;
 
 		 Note note = null;
 		 try{
