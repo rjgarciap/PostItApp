@@ -123,9 +123,12 @@
 
     <Button
         android:id="@+id/sendButton"
+        style="@style/button_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/mybutton"
+        android:drawableLeft="@android:drawable/ic_menu_send"
         android:text="@string/SendButton" />
 
 </LinearLayout>

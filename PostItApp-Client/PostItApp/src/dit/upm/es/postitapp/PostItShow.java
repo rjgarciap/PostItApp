@@ -129,8 +129,7 @@ public class PostItShow extends Activity {
 			public void onClick(View v) {
 
 				new DeleteNote().execute();
-				alertDialog.setTitle("Note deleted");
-				alertDialog.setMessage("Note has been successfully deleted");
+
 				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						//Finish activity
@@ -335,16 +334,20 @@ public class PostItShow extends Activity {
 			}
 			try {
 				HttpResponse response = client.execute(post);
-
-				//Obtener respuesta
+				if(response.getStatusLine().getStatusCode() == 200){
+					return true;
+				}else{
+					return false;
+				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
-			return true;
 		}
 
 		@Override
@@ -360,7 +363,16 @@ public class PostItShow extends Activity {
 		protected void onPostExecute(Boolean result) {
 			progressBar.dismiss();
 			//Aqui comprobamos el resultado
-			alertDialog.show();
+			if(result){
+				alertDialog.setTitle("Uploaded");
+				alertDialog.setMessage("Note has been successfully uploaded");
+				alertDialog.show();
+			
+			}else{
+				alertDialog.setTitle("Error");
+				alertDialog.setMessage("Sorry, Note has not been able to upload, try again later.");
+				alertDialog.show();
+			}
 
 		}
 

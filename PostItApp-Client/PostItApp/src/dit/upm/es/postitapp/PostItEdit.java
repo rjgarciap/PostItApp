@@ -145,10 +145,6 @@ public class PostItEdit extends Activity {
 				colorNoteSelected = getColorNote(idx);
 				new PostNote().execute();
 
-
-
-				alertDialog.setTitle("Note updated");
-				alertDialog.setMessage("Note has been successfully updated");
 				alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						String title = titleEditText.getText().toString();
@@ -206,6 +202,21 @@ public class PostItEdit extends Activity {
 		}
 	}
 
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if(imageCamera.getDrawable() != null){
+			changeImageButton.setVisibility(View.VISIBLE);
+			deleteImageButton.setVisibility(View.VISIBLE);
+			imageCamera.setVisibility(View.VISIBLE);
+		}else{
+			changeImageButton.setVisibility(View.GONE);
+			deleteImageButton.setVisibility(View.GONE);
+			imageCamera.setVisibility(View.GONE);
+		}
+	}
+	
 	public void openCamera(){
 		// Check if there is a camera.
 		Context context = this;
@@ -337,17 +348,22 @@ public class PostItEdit extends Activity {
 			}
 			try {
 				HttpResponse response = client.execute(post);
-
+				if(response.getStatusLine().getStatusCode() == 200){
+					return true;
+				}else{
+					return false;
+				}
 				//Obtener respuesta
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 
-			return true;
 		}
 
 		@Override
@@ -363,7 +379,16 @@ public class PostItEdit extends Activity {
 		protected void onPostExecute(Boolean result) {
 			progressBar.dismiss();
 			//Aqui comprobamos el resultado
-			alertDialog.show();
+			if(result){
+				alertDialog.setTitle("Uploaded");
+				alertDialog.setMessage("Note has been successfully uploaded");
+				alertDialog.show();
+			
+			}else{
+				alertDialog.setTitle("Error");
+				alertDialog.setMessage("Sorry, Note has not been able to upload, try again later.");
+				alertDialog.show();
+			}
 
 
 		}

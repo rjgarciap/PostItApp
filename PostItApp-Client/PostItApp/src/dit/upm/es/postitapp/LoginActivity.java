@@ -113,8 +113,7 @@ public class LoginActivity extends FragmentActivity {
 		public void call(Session session, SessionState state,Exception exception) {
 			// TODO Auto-generated method stub
 			if (state.isOpened()) {
-				loginBtn.setVisibility(View.GONE);
-				loginBtn.setAlpha(0);
+				loginBtn.setClickable(false);
 				String userId = session.getAccessToken();
 				startMain(userId);
 			} else if (state.isClosed()) {

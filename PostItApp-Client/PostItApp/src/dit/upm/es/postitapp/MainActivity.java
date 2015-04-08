@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -61,7 +62,6 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity  implements OnMapClickListener, OnMarkerClickListener, OnItemClickListener{
 
 	final Session session = Session.getActiveSession();
-
 	private String user_ID;
 	private String profileName;
 
@@ -77,14 +77,21 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	private Double lat;
 	private Double lon;
 
+	private boolean first = true;
+	
 	private Map<Marker,Long> allMarkersMap;
-
+	ProgressDialog progressBar;
 	GetNearNotes getNearNotesthread;
 	HttpClient client;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(session==null){
+			finish();
+		}
+		
 		setContentView(R.layout.activity_main);
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
@@ -95,6 +102,14 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		map.setOnMapClickListener(this);
 		map.setOnMyLocationChangeListener(myLocationChangeListener);
 
+		
+		progressBar = new ProgressDialog(this);
+		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressBar.setMessage("Loading your position...");
+		
+		if(first){
+			progressBar.show();
+		}
 		items = new ArrayList<ItemNavigationDrawer>();
 
 		allMarkersMap = new HashMap<Marker, Long>();
@@ -373,6 +388,9 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 			// TODO Auto-generated method stub
 			lat = location.getLatitude();
 			lon = location.getLongitude();
+			if(first){
+				progressBar.dismiss();
+			}
 			LatLng loc = new LatLng(lat, lon);
 			if(map != null ){
 				//16f
