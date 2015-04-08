@@ -83,6 +83,17 @@
             android:drawableLeft="@drawable/edit_ic"
             android:text="Editar"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/reportButton"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/mybutton"
+            android:drawableLeft="@drawable/edit_ic"
+            android:text="Reportar" />
+
     </LinearLayout>
 
 </LinearLayout>

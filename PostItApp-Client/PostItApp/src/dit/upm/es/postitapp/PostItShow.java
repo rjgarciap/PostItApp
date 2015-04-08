@@ -63,6 +63,7 @@ public class PostItShow extends Activity {
 	TextView titleTextView;
 	TextView contentTextView;
 	TextView authorNameNote;
+	
 
 	final int EDITNOTE_ACT = 123;
 
@@ -77,6 +78,7 @@ public class PostItShow extends Activity {
 
 	Button editButton;
 	Button deleteButton;
+	Button reportButton;
 	Cloudinary cloudinary;
 	ImageView imageNote;
 
@@ -95,7 +97,7 @@ public class PostItShow extends Activity {
 
 		editButton = (Button) findViewById(R.id.editButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
-
+		
 		imageNote = (ImageView) findViewById(R.id.imageNote);
 
 		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
