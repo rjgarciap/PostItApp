@@ -54,7 +54,7 @@ public class ReportsDAOImpl implements ReportsDAO {
 		 return report;		
 	}
 	@Override
-	public void add(String noteId, String timestamp, String userId) {
+	public void add(Long noteId, String timestamp, String userId) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
 			Reports report = new Reports(noteId, timestamp, userId);
