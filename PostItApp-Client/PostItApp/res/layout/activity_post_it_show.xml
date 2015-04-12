@@ -71,7 +71,7 @@
             android:layout_height="34dp"
             android:background="@drawable/mybutton"
             android:drawableLeft="@drawable/basics"
-            android:text="Borrar"
+            android:text="Delete"
             android:visibility="gone" />
 
         <Button
@@ -81,8 +81,18 @@
             android:layout_height="34dp"
             android:background="@drawable/mybutton"
             android:drawableLeft="@drawable/edit_ic"
-            android:text="Editar"
+            android:text="Edit"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/reportButton"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/mybutton"
+            android:drawableLeft="@android:drawable/ic_menu_view"
+            android:text="Report" />
     </LinearLayout>
 
 </LinearLayout>
