@@ -76,6 +76,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>ShowUsersModeratorServlet</servlet-name>
 		<url-pattern>/showUsers</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>DeleteExpiredNotesCronServlet</servlet-name>
+		<servlet-class>es.upm.dit.isst.todo.DeleteExpiredNotesCronServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteExpiredNotesCronServlet</servlet-name>
+		<url-pattern>/deletecron</url-pattern>
+	</servlet-mapping>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>cron</web-resource-name>
+			<url-pattern>/deletecron</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
 
 		
 	<welcome-file-list>
