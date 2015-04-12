@@ -76,10 +76,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>ShowUsersModeratorServlet</servlet-name>
 		<url-pattern>/showUsers</url-pattern>
 	</servlet-mapping>
-	
+
 		
-	
-	
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
