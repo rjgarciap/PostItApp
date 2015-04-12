@@ -24,8 +24,10 @@ public class Note implements Serializable {
 	private ColorNote colorNote;
 	private String userId;
 	private String imageId;
+	private String ttl;
 	
-	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, String imageId){
+	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId,
+			String imageId, String ttl){
 		
 		this.title = title; 
 		this.text = text;
@@ -34,6 +36,7 @@ public class Note implements Serializable {
 		this.colorNote = colorNote;
 		this.userId = userId;
 		this.imageId = imageId;
+		this.ttl = ttl;
 		
 	}
 	
@@ -81,5 +84,11 @@ public class Note implements Serializable {
 	}
 	public void setImageId(String imageId){
 		this.imageId= imageId;
+	}
+	public String getTTL(){
+		return ttl;
+	}
+	public void setTTL(String ttl){
+		this.ttl = ttl;
 	}
 }

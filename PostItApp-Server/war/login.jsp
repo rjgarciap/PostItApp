@@ -31,8 +31,10 @@
 				<section class="cuerpo">
 				
 					<aside class ="lateral">
+					<!-- <img id = "mapa" src="/images/imagenmapa.png"> -->
 					
 					<img id="movimiento"src="/images/postit.png">
+					
 					</aside>
 
 					<article>

@@ -64,6 +64,7 @@ public class PostItShow extends Activity {
 	TextView titleTextView;
 	TextView contentTextView;
 	TextView authorNameNote;
+	
 
 	final int EDITNOTE_ACT = 123;
 
@@ -98,6 +99,7 @@ public class PostItShow extends Activity {
 
 		editButton = (Button) findViewById(R.id.editButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
+
 		reportButton = (Button) findViewById(R.id.reportButton);
 
 		imageNote = (ImageView) findViewById(R.id.imageNote);
