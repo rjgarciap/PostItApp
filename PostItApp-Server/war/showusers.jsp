@@ -28,7 +28,7 @@
                <li class='last'><a href='#'><span>Sub Product</span></a></li>
             </ul>
          </li>
-         <li class='has-sub'><a href='#'><span>Show Reported Notes</span></a>
+         <li class='has-sub'><a href='/showReports'><span>Show Reported Notes</span></a>
          </li>
          <li class='has-sub'><a href='/showUsers'><span>Show Users</span></a>
          </li>

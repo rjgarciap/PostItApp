@@ -28,7 +28,7 @@
                <li class='last'><a href='#'><span>Sub Product</span></a></li>
             </ul>
          </li>
-         <li class='has-sub'><a href='#'><span>Show Reported Notes</span></a>
+         <li class='has-sub'><a href='/showReports'><span>Show Reported Notes</span></a>
          </li>
          <li class='has-sub'><a href='/showUsers'><span>Show Users</span></a>
          </li>
@@ -53,7 +53,9 @@
 				<th>Titulo de la Nota</th>
 				<th>Contenido de la Nota</th>
 				<th>Localización</th>
+				<th>Imagen</th>
 				<th>Eliminar</th>
+				<th>Ver nota</th>
 			</tr>
 		</thead>
 			
@@ -67,7 +69,9 @@
 					<td><c:out value="${note.title}"/></td>
 					<td><c:out value="${note.text}" /></td>
 					<td><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></td>
+					<td><c:out value="${note.imageId}" /></td>
 					<td> <a href="<c:url value="/deletenote?id=${note.id}"/>">Borrar</a></td>
+					<td> <a href="<c:url value="/LookNote?id=${note.id}"/>">Ver nota</a></td>
 				</tr>
 			</c:forEach>
 			
