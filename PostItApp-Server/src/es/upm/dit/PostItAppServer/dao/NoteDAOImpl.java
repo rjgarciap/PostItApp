@@ -40,10 +40,11 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 
 	@Override
-	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, String imageId) {
+	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, 
+			String imageId, String ttl) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
-			Note note = new Note(title, text, lat, lon, colorNote, userId, imageId);
+			Note note = new Note(title, text, lat, lon, colorNote, userId, imageId, ttl);
 			em.persist(note);
 			em.close();
 		}

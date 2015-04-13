@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,7 @@ public class PostItShow extends Activity {
 	private ProfilePictureView profileAuthorPicture;
 
 	AlertDialog alertDialog;
+	AlertDialog confirmDialog;
 
 	Button editButton;
 	Button deleteButton;
@@ -85,7 +87,7 @@ public class PostItShow extends Activity {
 	Bitmap bmp;
 
 	String imageId;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,12 +99,15 @@ public class PostItShow extends Activity {
 
 		editButton = (Button) findViewById(R.id.editButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
-		
+
+		reportButton = (Button) findViewById(R.id.reportButton);
+
 		imageNote = (ImageView) findViewById(R.id.imageNote);
 
 		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
+		confirmDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressBar.setMessage("Loading...");
@@ -110,7 +115,7 @@ public class PostItShow extends Activity {
 		userNoteId = extras.getString("userId");
 
 
-		
+
 
 
 
@@ -122,6 +127,33 @@ public class PostItShow extends Activity {
 				pressEdit();
 			}
 		} );
+
+		reportButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				confirmDialog.setTitle("Reporting note");
+				confirmDialog.setMessage("Are you sure?");
+
+				confirmDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						new ReportNote().execute();
+
+						alertDialog.setButton(RESULT_OK, "Ok", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+
+
+							}
+						});
+					}
+				});
+				confirmDialog.show();
+
+			}
+		});
+
 
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 
@@ -149,7 +181,7 @@ public class PostItShow extends Activity {
 		if(bmp!=null){
 			bmp.recycle();
 			bmp=null;
-			
+
 		}
 	}
 
@@ -197,6 +229,77 @@ public class PostItShow extends Activity {
 
 	}
 
+
+	private class ReportNote extends AsyncTask <Void, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+
+			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+
+
+			Bundle extras = getIntent().getExtras();
+			Long idNote = extras.getLong("idNote");
+			
+			pairs.add(new BasicNameValuePair("noteId", ""+idNote));
+			pairs.add(new BasicNameValuePair("userId", ""+userNoteId));
+			String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
+			HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/reportNotes");
+
+
+			try {
+				post.setEntity(new UrlEncodedFormEntity(pairs));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				HttpResponse response = client.execute(post);
+				if(response.getStatusLine().getStatusCode() == 200){
+					return true;
+				}else{
+					return false;
+				}
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progressBar.setCancelable(false);
+			progressBar.setMax(1);
+			progressBar.setTitle("Reporting Note");
+			progressBar.setProgress(0);
+			progressBar.show();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressBar.dismiss();
+			//Aqui comprobamos el resultado
+			if(result){
+				alertDialog.setTitle("Reported");
+				alertDialog.setMessage("Note has been successfully reported");
+				alertDialog.show();
+
+			}else{
+				alertDialog.setTitle("Error");
+				alertDialog.setMessage("Sorry, Note has not been able to report, try again later.");
+				alertDialog.show();
+			}
+
+		}
+
+	}
+
+
 	private class GetNote extends AsyncTask<Void, Void, Note> {
 
 		@Override
@@ -226,7 +329,7 @@ public class PostItShow extends Activity {
 				authorNoteId = note.getUserId();
 
 				imageId =note.getImageId();
-				
+
 				if(imageId!= ""){
 					URL urlImage =new URL(cloudinary.url().generate(note.getImageId()));
 					bmp = BitmapFactory.decodeStream(urlImage.openConnection().getInputStream());
@@ -275,9 +378,11 @@ public class PostItShow extends Activity {
 					if (authorNoteId.equals(userNoteId)){
 						editButton.setVisibility(View.VISIBLE);
 						deleteButton.setVisibility(View.VISIBLE);
+						reportButton.setVisibility(View.GONE);
 					}else{
-						editButton.setVisibility(View.INVISIBLE);
-						deleteButton.setVisibility(View.INVISIBLE);
+						editButton.setVisibility(View.GONE);
+						deleteButton.setVisibility(View.GONE);
+						reportButton.setVisibility(View.VISIBLE);
 					}
 
 					progressBar.dismiss();
@@ -315,7 +420,7 @@ public class PostItShow extends Activity {
 			pairs.add(new BasicNameValuePair("id", ""+idNote));
 			String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
 			HttpPost post = new HttpPost("http://1-dot-postitapp-server.appspot.com/deletenote");
-			
+
 			try {
 				if(imageId!=""){
 					Map probando = cloudinary.uploader().destroy(imageId, null);
@@ -325,7 +430,7 @@ public class PostItShow extends Activity {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			try {
 				post.setEntity(new UrlEncodedFormEntity(pairs));
 			} catch (UnsupportedEncodingException e) {
@@ -367,7 +472,7 @@ public class PostItShow extends Activity {
 				alertDialog.setTitle("Uploaded");
 				alertDialog.setMessage("Note has been successfully uploaded");
 				alertDialog.show();
-			
+
 			}else{
 				alertDialog.setTitle("Error");
 				alertDialog.setMessage("Sorry, Note has not been able to upload, try again later.");
