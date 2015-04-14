@@ -23,14 +23,14 @@
       <ul>
          <li class='has-sub'><a href='/showNotes'><span>Show Notes</span></a>
          </li>
-         <li class='has-sub'><a href='/showReports'><span>Show Reported Notes</span></a>
+         <li class='has-sub'><a href='/reportNotes'><span>Show Reported Notes</span></a>
          </li>
          <li class='has-sub'><a href='/showUsers'><span>Show Users</span></a>
          </li>
       </ul>
    </li>
-   <li><a href='#'><span>About</span></a></li>
-   <li class='last'><a href='#'><span>Help</span></a></li>
+   
+   <li class='last'><a href='/about'><span>About</span></a></li>
 </ul>
 </div>
 

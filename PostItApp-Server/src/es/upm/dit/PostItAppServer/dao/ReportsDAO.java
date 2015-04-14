@@ -9,7 +9,7 @@ import es.upm.dit.PostItAppServer.model.Reports;
 
 public interface ReportsDAO {
 	public List<Reports> listReports(); //Lista notas
-	public void remove(long id); //Borra nota con ese id
+	public void remove(long idNote); //Borra nota con ese id
 	public Reports getById(long id); //Busca el reporte con el ID
 	public void add(Long noteId, String timestamp, String userId); //Add nota
 	

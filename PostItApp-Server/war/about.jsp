@@ -5,18 +5,17 @@
 
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
-<head>
-	
-		<title>NotesList</title>
-		
 
-		<link rel="stylesheet" type="text/css" href="css/shownotes.css" />
-		
+
+<html>
+	<head>
+		<title>Moderation Workspace</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<meta charset="utf-8">
 	</head>
-
-<body>
+	
+	<body>
+	
 <div id='cssmenu'>
 <ul>
    <li><a href='main.jsp'><span>Home</span></a></li>
@@ -30,50 +29,28 @@
          </li>
       </ul>
    </li>
-
+   
    <li class='last'><a href='/about'><span>About</span></a></li>
 </ul>
 </div>
 
-<div id="fondo">
+	<div id="fondo">
+	<img alt="" src="/images/foto.png">
 	
+	</div>
 	
+	<p> PostItApp - ISST 2014-2015 </p>
 	
-
-<div class="datagrid">
-	<table>
-		<thead>
-			<tr>
-				
-				<th>Id de Usuario</th>
-				<th>Titulo de la Nota</th>
-				<th>Contenido de la Nota</th>
-				<th>Localización</th>
-				<th>Ver nota</th>
-			</tr>
-		</thead>
-			
-		<tbody>
-			
-			<c:forEach items="${notes}" var="note">
-			
-				<tr class = "alt">
-					
-					<td><c:out value="${note.userId}" /></td>
-					<td><c:out value="${note.title}"/></td>
-					<td><c:out value="${note.text}" /></td>
-					<td><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></td>
-					<td> <a href="<c:url value="/LookNote?id=${note.id}"/>">Ver nota</a></td>
-				</tr>
-			</c:forEach>
-			
-		</tbody>
-			
-	</table>
-</div>
-
-</div>
-</body>
+	<p> Grupo 18 </p>
+	<p> Componentes del equipo </p>
+	<p> Product Owner: Jorge Ramírez </p>
+	<p>	Scrum Master: Ricardo García</p>
+	<p>Team Developer Members: 
+		Cristina Luna, Moisés Torres, Rubén Oliva</p>
+	
+	<a href="mailto:app.postit@gmail.com">Contacta con Nosotros.</a>
 
 
+		
+	</body>
 </html>

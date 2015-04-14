@@ -25,19 +25,16 @@
    <li class='active has-sub'><a href='main.jsp'><span>Management</span></a>
       <ul>
          <li class='has-sub'><a href='/showNotes'><span>Show Notes</span></a>
-            <ul>
-               <li><a href='#'><span>hola</span></a></li>
-               <li class='last'><a href='#'><span>Sub Product</span></a></li>
-            </ul>
+           
          </li>
-         <li class='has-sub'><a href='/showReports'><span>Show Reported Notes</span></a>
+         <li class='has-sub'><a href='/reportNotes'><span>Show Reported Notes</span></a>
          </li>
          <li class='has-sub'><a href='/showUsers'><span>Show Users</span></a>
          </li>
       </ul>
    </li>
-   <li><a href='#'><span>About</span></a></li>
-   <li class='last'><a href='#'><span>Help</span></a></li>
+
+   <li class='last'><a href='/about'><span>About</span></a></li>
 </ul>
 </div>
 
@@ -51,7 +48,7 @@
 			<tr>
 				<th>Fecha del reporte</th>
 				<th>Id de la nota reportada</th>
-				<th>Id del usuario que la subió</th>
+				<th>Id del usuario que la reportó</th>
 				<th>Ver nota</th>
 				
 			</tr>
@@ -59,7 +56,7 @@
 		<tbody>
 			<c:forEach items="${reports}" var="report">
 				<tr>
-					<td><c:out value="Hola" /></td>
+					<td><c:out value="${report.timestamp}" /></td>
 					<td><c:out value="${report.noteId}"/></td>
 					<td><c:out value="${report.userId}" /></td>
 					<td> <a href="<c:url value="/LookNote?id=${report.noteId}"/>">Ver nota</a></td>

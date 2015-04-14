@@ -1,61 +1,24 @@
 package es.upm.dit.PostItAppServer;
 
+
 import java.io.IOException;
-<<<<<<< HEAD
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
-
-//import com.cloudinary.Cloudinary;
-
-import es.upm.dit.PostItAppServer.dao.ReportsDAOImpl;
-import es.upm.dit.PostItAppServer.dao.ReportsDAO;
-import es.upm.dit.PostItAppServer.model.Reports;
-
-public class ReportsServlet extends HttpServlet{
-	
-private static final long serialVersionUID = 1L;
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		
-
-		
-		ReportsDAO dao = ReportsDAOImpl.getInstance();
-	
-		
-	
-		
-		List<Reports> reports = new ArrayList<Reports>();
-		reports = dao.listReports();
-		System.out.println(""+reports.size());
-		
-		
-		req.getSession().setAttribute("reports", new ArrayList<Reports>(reports));
-		
-
-	
-		//Cloudinary cloudinary;
-		RequestDispatcher view = req.getRequestDispatcher("showreported.jsp");
-		view.forward(req, resp);
-			
-		
-	}
-=======
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.upm.dit.PostItAppServer.dao.ReportsDAO;
 import es.upm.dit.PostItAppServer.dao.ReportsDAOImpl;
+import es.upm.dit.PostItAppServer.model.Reports;
 
->>>>>>> 17c0417f0c49531e9235fac7532fa707580cc7ab
+
 
 public class ReportsServlet extends HttpServlet {
 
@@ -83,5 +46,31 @@ private static final long serialVersionUID = 1L; //Serializes objects through HT
 			return "This field should not be empty";
 		}
 		return s;
+	}
+	
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		
+
+		
+		ReportsDAO dao = ReportsDAOImpl.getInstance();
+	
+		
+	
+		
+		List<Reports> reports = new ArrayList<Reports>();
+		reports = dao.listReports();
+		System.out.println(""+reports.size());
+		
+		
+		req.getSession().setAttribute("reports", new ArrayList<Reports>(reports));
+		
+
+	
+		//Cloudinary cloudinary;
+		RequestDispatcher view = req.getRequestDispatcher("showreported.jsp");
+		view.forward(req, resp);
+			
+		
 	}
 }
