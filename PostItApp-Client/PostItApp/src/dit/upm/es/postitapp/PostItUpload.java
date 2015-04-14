@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import com.google.android.gms.internal.cm;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,10 +41,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -64,7 +68,18 @@ public class PostItUpload extends Activity{
 	ImageButton deleteImageButton;
 	ImageButton changeImageButton;
 	Bitmap bp;
+
+	private TextView tvDisplayDate;
+	private ImageButton btnChangeDate;
+	private ImageButton btnDeleteDate;
+	private DatePickerDialog dateDialog;
+ 
+	private final Calendar c = Calendar.getInstance();
 	
+	private int year;
+	private int month;
+	private int day;
+
 	int idxColor;
 	ColorNote colorNoteSelected;
 	final int CAMERA_ACT = 0 ;
@@ -140,6 +155,39 @@ public class PostItUpload extends Activity{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				openCamera();
+			}
+		});
+		
+		
+		c.add(Calendar.DATE, 1);
+		setCurrentDateOnView();
+		btnChangeDate = (ImageButton) findViewById(R.id.btnChangeDate);
+		btnDeleteDate = (ImageButton) findViewById(R.id.btnDeleteDate);
+		dateDialog = new DatePickerDialog(this, datePickerListener, 
+                year, month,day);
+		
+		btnChangeDate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dateDialog.show();
+				
+			}
+		});
+		
+		btnDeleteDate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				year = c.get(Calendar.YEAR);
+				month = c.get(Calendar.MONTH);
+				day = c.get(Calendar.DAY_OF_MONTH);
+				
+				dateDialog.updateDate(year, month, day);
+				
+				// set current date into textview
+				tvDisplayDate.setText("No date selected");
+				
 			}
 		});
 		
@@ -296,6 +344,29 @@ public class PostItUpload extends Activity{
 			pairs.add(new BasicNameValuePair("title", titleEditText.getText().toString()));
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));
 
+			String ttlString="";
+	 		if(!tvDisplayDate.getText().equals("No date selected")){
+				
+				StringBuilder ttlStringBuilder = new StringBuilder();
+				
+				ttlStringBuilder.append(year).append("-");
+				
+				if(month < 10){
+					ttlStringBuilder.append("0").append(month + 1).append("-");
+				}else{
+					ttlStringBuilder.append(month + 1).append("-");
+				}
+				
+				if(day < 10){
+					ttlStringBuilder.append("0").append(day).append("-");
+				}else{
+					ttlStringBuilder.append(day);
+				}
+				ttlString = ttlStringBuilder.toString();
+	 		}
+			
+	 		pairs.add(new BasicNameValuePair("ttl", ttlString));
+			
 			InputStream in;
 			try {
 				
@@ -379,6 +450,51 @@ public class PostItUpload extends Activity{
 
 	}
 
+	private DatePickerDialog.OnDateSetListener datePickerListener 
+	= new DatePickerDialog.OnDateSetListener() {
+
+		// when dialog box is closed, below method will be called.
+		public void onDateSet(DatePicker view, int selectedYear,
+				int selectedMonth, int selectedDay) {
+			year = selectedYear;
+			month = selectedMonth;
+			day = selectedDay;
+
+			// set selected date into textview
+			StringBuilder dateString = new StringBuilder();
+			
+			dateString.append(year).append("-");
+			
+			if(month < 10){
+				dateString.append("0").append(month + 1).append("-");
+			}else{
+				dateString.append(month + 1).append("-");
+			}
+			
+			if(day < 10){
+				dateString.append("0").append(day).append("-");
+			}else{
+				dateString.append(day);
+			}
+			tvDisplayDate.setText(dateString);
+
+		}
+	}; 
+ 
+	// display current date
+	public void setCurrentDateOnView() {
+ 
+		tvDisplayDate = (TextView) findViewById(R.id.tvDate);
+ 
+		year = c.get(Calendar.YEAR);
+		month = c.get(Calendar.MONTH);
+		day = c.get(Calendar.DAY_OF_MONTH);
+		
+ 
+		// set current date into textview
+		tvDisplayDate.setText("No date selected");
+		
+	}
 
 
 }
