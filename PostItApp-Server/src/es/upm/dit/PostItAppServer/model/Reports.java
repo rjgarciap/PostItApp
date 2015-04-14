@@ -15,9 +15,9 @@ public class Reports implements Serializable {
 	
 	private String timestamp;
 	private String userId;
-	private String noteId;
+	private Long noteId;
 	
-	public Reports (String timestamp, String userId, String noteId){
+	public Reports (Long noteId, String timestamp, String userId){
 		
 		this.timestamp=timestamp;
 		this.userId = userId;
@@ -48,11 +48,11 @@ public class Reports implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getNoteId() {
+	public Long getNoteId() {
 		return noteId;
 	}
 
-	public void setNoteId(String noteId) {
+	public void setNoteId(Long noteId) {
 		this.noteId = noteId;
 	}
 	

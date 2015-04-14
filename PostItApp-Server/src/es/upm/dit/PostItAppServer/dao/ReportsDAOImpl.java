@@ -25,21 +25,28 @@ public class ReportsDAOImpl implements ReportsDAO {
 	public List<Reports> listReports() {
 		EntityManager em = EMFService.get().createEntityManager();
 		//HABRA QUE HACER UNA CONSULTA MAS RARA
-		Query q = em.createQuery("select n from Reports n");
+		Query q = em.createQuery("select distinct n from Reports n");
 		List<Reports> reports = q.getResultList();
 		
 		return reports;
 	}
 	@Override
-	public void remove(long id) {
+	public void remove(long idNote) {
 		EntityManager em = EMFService.get().createEntityManager();
-		try{
-			Reports report = em.find(Reports.class, id);
+		
+		Query query = em.createQuery(
+			      "DELETE FROM Reports r WHERE r.noteId  =:noteId");
+			  int deletedCount = query.setParameter("noteId", idNote).executeUpdate();
+			  em.close();
+		/*try{
+			Reports report = em.find(Reports.class, idNote);
 			em.remove(report);
 		} finally {
 			em.close();
-		}
+		}*/
 	}
+	
+	
 	@Override
 	public Reports getById(long id) {
 		EntityManager em = EMFService.get().createEntityManager();
@@ -54,7 +61,7 @@ public class ReportsDAOImpl implements ReportsDAO {
 		 return report;		
 	}
 	@Override
-	public void add(String noteId, String timestamp, String userId) {
+	public void add(Long noteId, String timestamp, String userId) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
 			Reports report = new Reports(noteId, timestamp, userId);

@@ -11,25 +11,19 @@ import es.upm.dit.PostItAppServer.dao.NoteDAOImpl;
 import es.upm.dit.PostItAppServer.dao.ReportsDAO;
 import es.upm.dit.PostItAppServer.dao.ReportsDAOImpl;
 
-
-
-public class DeleteNoteServlet extends HttpServlet {
+public class DeleteReportsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
-		
-		// Recupero de la petición HTTP el id de la nota que quiere borrar el usuario
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String id = req.getParameter("id");
-		
 		NoteDAO dao = NoteDAOImpl.getInstance();
-		
 		dao.remove(Long.parseLong(id));
 		
+		ReportsDAO daorep = ReportsDAOImpl.getInstance();
+		daorep.remove(Long.parseLong(id));
+		
+		resp.sendRedirect("/showNotes");
+	
 	}
-	
-	
-
-	
 }

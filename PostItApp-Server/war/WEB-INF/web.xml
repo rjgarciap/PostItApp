@@ -36,6 +36,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>DeleteNoteServlet</servlet-name>
 		<url-pattern>/deletenote</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AboutServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.AboutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AboutServlet</servlet-name>
+		<url-pattern>/about</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MainServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.MainServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MainServlet</servlet-name>
+		<url-pattern>/main</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>GetUserNotesServlet</servlet-name>
 		<servlet-class>es.upm.dit.PostItAppServer.GetUserNotesServlet</servlet-class>
@@ -76,13 +95,46 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>ShowUsersModeratorServlet</servlet-name>
 		<url-pattern>/showUsers</url-pattern>
 	</servlet-mapping>
-		<servlet>
+
+		<!-- <servlet>
+		<servlet-name>ReportsServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.ReportsServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>ReportsServlet</servlet-name>
+		<url-pattern>/showReports</url-pattern>
+	</servlet-mapping> -->
+			<servlet>
+		<servlet-name>LookNoteServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.LookNoteServlet</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>LookNoteServlet</servlet-name>
+		<url-pattern>/LookNote</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>DeleteExpiredNotesCronServlet</servlet-name>
-		<servlet-class>es.upm.dit.isst.todo.DeleteExpiredNotesCronServlet</servlet-class>
+		<servlet-class>es.upm.dit.PostItAppServer.DeleteExpiredNotesCronServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteExpiredNotesCronServlet</servlet-name>
 		<url-pattern>/deletecron</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ReportsServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.ReportsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportsServlet</servlet-name>
+		<url-pattern>/reportNotes</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>DeleteReportsServlet</servlet-name>
+		<servlet-class>es.upm.dit.PostItAppServer.DeleteReportsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteReportsServlet</servlet-name>
+		<url-pattern>/deletereport</url-pattern>
 	</servlet-mapping>
 	
 	<security-constraint>

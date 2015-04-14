@@ -22,19 +22,15 @@
    <li class='active has-sub'><a href='main.jsp'><span>Management</span></a>
       <ul>
          <li class='has-sub'><a href='/showNotes'><span>Show Notes</span></a>
-            <ul>
-               <li><a href='#'><span>hola</span></a></li>
-               <li class='last'><a href='#'><span>Sub Product</span></a></li>
-            </ul>
          </li>
-         <li class='has-sub'><a href='#'><span>Show Reported Notes</span></a>
+         <li class='has-sub'><a href='/reportNotes'><span>Show Reported Notes</span></a>
          </li>
          <li class='has-sub'><a href='/showUsers'><span>Show Users</span></a>
          </li>
       </ul>
    </li>
-   <li><a href='#'><span>About</span></a></li>
-   <li class='last'><a href='#'><span>Help</span></a></li>
+   
+   <li class='last'><a href='/about'><span>About</span></a></li>
 </ul>
 </div>
 
