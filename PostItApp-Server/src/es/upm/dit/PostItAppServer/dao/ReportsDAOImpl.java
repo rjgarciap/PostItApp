@@ -25,7 +25,7 @@ public class ReportsDAOImpl implements ReportsDAO {
 	public List<Reports> listReports() {
 		EntityManager em = EMFService.get().createEntityManager();
 		//HABRA QUE HACER UNA CONSULTA MAS RARA
-		Query q = em.createQuery("select distinct n from Reports n");
+		Query q = em.createQuery("select distinct n from Reports n order by n.timestamp DESC");
 		List<Reports> reports = q.getResultList();
 		
 		return reports;

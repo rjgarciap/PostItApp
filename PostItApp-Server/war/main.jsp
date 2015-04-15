@@ -19,7 +19,7 @@
 <div id='cssmenu'>
 <ul>
    <li><a href='main.jsp'><span>Home</span></a></li>
-   <li class='active has-sub'><a href='main.jsp'><span>Management</span></a>
+   <li class='active has-sub'><a href='/main'><span>Management</span></a>
       <ul>
          <li class='has-sub'><a href='/showNotes'><span>Show Notes</span></a>
          </li>

@@ -34,7 +34,7 @@
 </ul>
 </div>
 
-	<div id="fondo">
+	<div id="grupo">
 	<img alt="" src="/images/foto.png">
 	
 	</div>

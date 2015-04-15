@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -11,8 +12,9 @@
 		<title>NotesList</title>
 		
 
-		<link rel="stylesheet" type="text/css" href="css/shownotes.css" />
-		
+		<link rel="stylesheet" type="text/css" href="css/lookNote.css" />
+		<link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 		<meta charset="utf-8">
 	</head>
 
@@ -39,50 +41,76 @@
 <div id="fondo">
 	
 	
+	<c:choose>
 	
+	
+		<c:when test="${note.colorNote == \"BLUE\"}">
+			<c:set var="caja" value="cajablue"/>				
+		</c:when>
+		<c:when test="${note.colorNote == \"RED\"}">
+			<c:set var="caja" value="cajared"/>					
+		</c:when>
+		<c:when test="${note.colorNote == \"GREEN\"}">
+			<c:set var="caja" value="cajagreen"/>					
+		</c:when>
+		<c:otherwise>
+			<c:set var="caja" value="cajayellow"/>	
+		</c:otherwise>
+								
+	</c:choose>
 
-<div class="datagrid">
+<div class=<c:out value="${caja}"/>>
+
 		<form action="/deletereport?id=${note.id}" method="post" accept-charset="utf-8">
 					
-						<table>
-						<tbody>
 						
-							<tr class = "alt">
-								<td><label for="title">Título</label></td>
-								<td><c:out value="${note.title}" /></td>
-							</tr>
-							<tr class = "alt">
-								<td><label for="text">Contenido</label></td>
-								<td><c:out value="${note.text}" /></td>
-							</tr>
-							<tr class = "alt">
+						
+						
+							<dl>
+								<dt><label for="expiracion">Fecha de expiración: </label><c:out value="${note.TTL}" /></dt> 
+								
+								
+								 
+								 <dt><label for="title">Título:</label></dt> 
+								
+								<dd><c:out value="${note.title}" /></dd> 
 							
-							<td><label for="image">Imagen</label></td>
-					
+							<br>
+								<dt><label for="text">Contenido:</label></dt>
+								<dd><c:out value="${note.text}" /></dd>
+							<br>
+								<!-- <dt><label for="text">Color:</label></dt> -->
+								<!--<dd><c:out value="${note.colorNote}" /></dd>-->
+							
+							<!--<dt><label for="image">Imagen</label></dt>-->
+						<br>
 								<c:choose>
 									<c:when test="${note.imageId != \"\"}">
-								
-								<td><img width="100" height="100" src=<c:url value="http://res.cloudinary.com/postitapp/image/upload/${note.imageId}"/>></td>
+								<center>
+								<img src=<c:url value="http://res.cloudinary.com/postitapp/image/upload/${note.imageId}"/>>
+								</center>
 								</c:when>
 								<c:otherwise>
-								<td><c:out value="No imagen" />
+								<dd><c:out value="(No hay imagen)" /></dd>
 								</c:otherwise>
 								</c:choose>
-							</tr>
-							
-							<tr class = "alt">
-								<td><label for="localization">Localización</label></td>
-								<td><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></td>
-							</tr>
+						
 							
 							
-							<tr class = "alt">
-								<td><input type="submit" value="Borrar"/></td>
-							</tr>
-						</tbody>
-						</table>
+								<!--<dt><label for="localization">Localización:</label></dt>-->
+								<!--<dd><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></dd>-->
+						
+							<br>
+							
+							<center>
+								<dt><input class="button" type="submit" value="ELIMINAR NOTA"/></dt>
+							</center>	
+							</br>
+						</dl>
 						
 					</form>
+
+	
 </div>
 
 </div>

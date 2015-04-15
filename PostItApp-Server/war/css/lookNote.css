@@ -1,133 +1,4 @@
-
-#fondo{
-	position: relative;
-	margin-top: 2%;
-}
-#grupo{
-	position: relative;
-	margin-top: 2%;
-}
-
-.datagrid table { 
-	border-collapse: collapse;
-	text-align: left; width: 100%;
-	
-	
-	
- }
- 
-.datagrid {
-	font: normal 12px/150% Times New Roman, Times, serif; 
-	background: #fff;
-	overflow: hidden; 
-	border: 1px solid #006699; 
-	-webkit-border-radius: 3px; 
-	-moz-border-radius: 3px; 
-	border-radius: 3px;
-}
-.datagrid table td, .datagrid table th {
-	padding: 3px 10px;
-}
-.datagrid table thead th {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
-	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-	background-color:#006699; 
-	color:#FFFFFF; 
-	font-size: 17px; 
-	font-weight: bold; 
-	border-left: 1px solid #0070A8;
- } 
- .datagrid table thead th:first-child { 
- 	border: none; 
- }
- .datagrid table tbody td { 
-	 color: #00557F; 
-	 border-left: 1px solid #E1EEF4;
-	 font-size: 13px;
-	 font-weight: normal;
-  }
-  .datagrid table tbody .alt td { 
-  background: #D1E5EE;
-   color: #00557F;
-   border-left: 1px solid #FFFFFF;
-    border-right: 1px solid #FFFFFF;
-    border-bottom:  1px solid #FFFFFF;
-    border-top:  1px solid #FFFFFF;
-   
-    }
-.datagrid table tbody td:first-child { 
-    border-left: 1px solid #FFFFFF;
-    border-right: 1px solid #FFFFFF;
-    border-bottom:  1px solid #FFFFFF;
-    border-top:  1px solid #FFFFFF;
-    }
-.datagrid table tbody tr:last-child td { 
-    border-bottom: 1px solid #FFFFFF;
-     border-right: 1px solid #FFFFFF;
-    border-bottom:  1px solid #FFFFFF;
-    border-top:  1px solid #FFFFFF;
-    }
- .datagrid table tbody tr:hover td{
- background-color:  	#F0F8FF;
- }   
-    .datagrid table tfoot td div {
-     border-top: 1px solid #006699;
-     background: #E1EEf4;} 
-     .datagrid table tfoot td {
-      padding: 0;
-       font-size: 12px }
-        .datagrid table tfoot td div{ 
-        padding: 2px;
-         }
-     .datagrid table tfoot td ul { 
-     margin: 0;
-      padding:0; 
-      list-style: none;
-       text-align: right; }
-       .datagrid table tfoot  li {
-        display: inline;
-         }
-    .datagrid table tfoot li a {
-     text-decoration: none;
-      display: inline-block;
-        padding: 2px 8px;
-         margin: 1px;
-         color: #FFFFFF;
-         border: 1px solid #006699;
-         -webkit-border-radius: 3px; 
-         -moz-border-radius: 3px;
-          border-radius: 3px;
-           background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
-           background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
-           filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-           background-color:#006699; 
-           }
-           
-           .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { 
-           text-decoration: none;border-color: #00557F;
-            color: #FFFFFF;
-             background: none;
-              background-color:#006699;
-              }
-              div.dhtmlx_window_active, div.dhx_modal_cover_dv {
-               position: fixed !important; }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    body {
+body {
   margin: 5px; 
   font-family: Arial, Helvetica, sans-serif;
    background-image: url("../images/fondoblanco.jpg") ;
@@ -135,6 +6,10 @@
    background-size: cover;
  
 }
+
+
+
+
 
 #cssmenu ul,
 #cssmenu li,
@@ -314,6 +189,135 @@
 #cssmenu .has-sub ul li.last > a {
   border-bottom: 0;
 }
+
+
+
+div.cajared{
+	
     
     
+  	height: 500px;
+  	width: 500px;
+    position: relative;
     
+  
+  	margin: 5% 25% 5% 25%;
+	border-radius: 0px;
+    border: 0px solid #000; 
+    box-shadow: 0px 1px 5px #1C1C1C;
+    min-height: 500px;
+    min-width: 500px;
+    color:black;
+  	background-color: rgba(255,0,0,0.5);
+	
+
+}
+div.cajablue{
+	
+    
+
+  	height: 500px;
+  	width: 500px;
+    position: relative;
+    
+  
+  	margin: 5% 25% 5% 25%;
+	border-radius: 0px;
+    border: 0px solid #000; 
+    box-shadow: 0px 1px 5px #1C1C1C;
+    min-height: 500px;
+    min-width: 500px;
+    color:black;
+  	background-color: rgba(0,0,255,0.5);
+	
+
+}
+div.cajayellow{
+	
+    
+   
+  	height: 500px;
+  	width: 500px;
+    position: relative;
+    
+  
+  	margin: 5% 25% 5% 25%;
+	border-radius: 0px;
+    border: 0px solid #000; 
+    box-shadow: 0px 1px 5px #1C1C1C;
+    min-height: 500px;
+    min-width: 500px;
+    color:black;
+  	background-color: rgba(255,255,0,0.5);
+	
+
+}
+div.cajagreen{
+	
+    
+ 
+  	height: 500px;
+  	width: 500px;
+    position: relative;
+    
+  
+  	margin: 5% 25% 5% 25%;
+	border-radius: 0px;
+    border: 0px solid #000; 
+    box-shadow: 0px 1px 5px #1C1C1C;
+    min-height: 500px;
+    min-width: 500px;
+    color:black;
+  	background-color: rgba(0,255,0,0.5);
+	
+
+}
+form {
+	padding-top: 5%;	
+	padding-left: 10%;
+	padding-right: 10%;
+	height: 400px;
+}
+dt {
+	
+	font-family: serif;
+	font-size: 17px;
+	font-family: 'Oleo Script', cursive;
+}
+dd{
+	
+	font-family: 'Indie Flower', cursive;
+}
+
+img{
+	
+	height: 150px;
+	width: 150px;
+	border-style: double;
+	
+	
+}
+
+br{
+	line-height: 15px;
+	}
+
+input.button{
+display:       inline-block;
+padding:       8px 20px;
+background:    #20124d url('http://dabuttonfactory.com/button.png?w=1&h=31&bgt=gradient&bgc=8e7cc3&ebgc=20124d') repeat-x;
+background:    -moz-linear-gradient(#8e7cc3, #20124d);
+background:    -o-linear-gradient(#8e7cc3, #20124d);
+background:    -webkit-linear-gradient(#8e7cc3, #20124d);
+background:    linear-gradient(#8e7cc3, #20124d);
+border:        1px solid #569;
+border-radius: 5px;
+box-shadow:    2px 2px 0 0 #444;
+color:         #fff;
+font:          italic 700 15px/1 "Komika", cursive;
+text-align:    center;
+text-shadow:   1px 1px 0 #000;
+position: relative;
+bottom: 0px;
+
+}

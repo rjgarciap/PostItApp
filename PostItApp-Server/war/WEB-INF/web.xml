@@ -95,16 +95,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>ShowUsersModeratorServlet</servlet-name>
 		<url-pattern>/showUsers</url-pattern>
 	</servlet-mapping>
-
-		<!-- <servlet>
-		<servlet-name>ReportsServlet</servlet-name>
-		<servlet-class>es.upm.dit.PostItAppServer.ReportsServlet</servlet-class>
-	</servlet>
-		<servlet-mapping>
-		<servlet-name>ReportsServlet</servlet-name>
-		<url-pattern>/showReports</url-pattern>
-	</servlet-mapping> -->
-			<servlet>
+	<servlet>
 		<servlet-name>LookNoteServlet</servlet-name>
 		<servlet-class>es.upm.dit.PostItAppServer.LookNoteServlet</servlet-class>
 	</servlet>
