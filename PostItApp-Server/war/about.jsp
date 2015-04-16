@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<title>Moderation Workspace</title>
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/about.css" />
 		<meta charset="utf-8">
 	</head>
 	
@@ -33,24 +33,27 @@
    <li class='last'><a href='/about'><span>About</span></a></li>
 </ul>
 </div>
-
-	<div id="grupo">
-	<img alt="" src="/images/foto.png">
+<div class='papa'>
 	
-	</div>
+	<img src="/images/foto.png" opacity = 100>
 	
+	
+	
+	<div class='data'>
 	<p> PostItApp - ISST 2014-2015 </p>
-	
 	<p> Grupo 18 </p>
-	<p> Componentes del equipo </p>
-	<p> Product Owner: Jorge Ramírez </p>
-	<p>	Scrum Master: Ricardo García</p>
-	<p>Team Developer Members: 
-		Cristina Luna, Moisés Torres, Rubén Oliva</p>
-	
+	<dl>
+	<dt> Componentes del equipo </dt>
+	<dt> Product Owner:  </dt>
+	<dd>Jorge Ramírez</dd>
+	<dt>	Scrum Master: <dt>
+	<dd> Ricardo García </dd>
+	<dt>Team Developer Members: </dt>
+	<dd>	Cristina Luna, Moisés Torres, Rubén Oliva</dd>
+	</dl>
 	<a href="mailto:app.postit@gmail.com">Contacta con Nosotros.</a>
 
-
-		
+</div>
+	</div>
 	</body>
 </html>
