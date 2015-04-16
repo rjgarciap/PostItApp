@@ -27,7 +27,7 @@ public class PostNoteServlet extends HttpServlet{
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
 		dao.add(title,text,Double.parseDouble(lat),Double.parseDouble(lon), ColorNote.valueOf(colorNote),
-				userId, imageId, ttl);
+				userId, imageId, ttl, 0);
 		
 		//Habría que enviar un código de 200 ok o algo que haga que la app sepa que ha ido bien o no
 	
