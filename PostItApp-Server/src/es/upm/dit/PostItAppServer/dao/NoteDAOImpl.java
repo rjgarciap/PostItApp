@@ -112,7 +112,7 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 	
 	@Override
-	public void editNote(long id, String title, String text,  ColorNote colorNote, String imageId){
+	public void editNote(long id, String title, String text,  ColorNote colorNote, String imageId, String ttl){
 
 		EntityManager em = EMFService.get().createEntityManager();
 
@@ -124,6 +124,7 @@ public class NoteDAOImpl implements NoteDAO {
 		        note.setText(text);
 		        note.setColorNote(colorNote);
 		        note.setImageId(imageId);
+		        note.setTTL(ttl);
 		        em.persist(note);
 		        tx.commit();
 		} finally {
