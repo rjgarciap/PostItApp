@@ -159,12 +159,13 @@ public class PostItUpload extends Activity{
 		});
 		
 		
-		c.add(Calendar.DATE, 1);
 		setCurrentDateOnView();
 		btnChangeDate = (ImageButton) findViewById(R.id.btnChangeDate);
 		btnDeleteDate = (ImageButton) findViewById(R.id.btnDeleteDate);
 		dateDialog = new DatePickerDialog(this, datePickerListener, 
                 year, month,day);
+		
+		dateDialog.getDatePicker().setMinDate(c.getTimeInMillis());
 		
 		btnChangeDate.setOnClickListener(new View.OnClickListener() {
 			
