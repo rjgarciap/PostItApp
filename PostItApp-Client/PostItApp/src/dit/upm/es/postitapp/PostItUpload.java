@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.Utils;
-import com.google.android.gms.internal.cm;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,7 +38,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +71,8 @@ public class PostItUpload extends Activity{
 	ImageButton changeImageButton;
 	Bitmap bp;
 
+	TextView resultList;
+	
 	private TextView tvDisplayDate;
 	private ImageButton btnChangeDate;
 	private ImageButton btnDeleteDate;
@@ -83,6 +87,8 @@ public class PostItUpload extends Activity{
 	int idxColor;
 	ColorNote colorNoteSelected;
 	final int CAMERA_ACT = 0 ;
+    private static final int PICK_FRIENDS_ACTIVITY = 1;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,6 +111,8 @@ public class PostItUpload extends Activity{
 		
 		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
 
+		resultList=(TextView) findViewById(R.id.resultList);
+		
 		sendButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -239,6 +247,16 @@ public class PostItUpload extends Activity{
 		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent, CAMERA_ACT);
 	}
+	
+	public void openFriendList(){
+		Intent intent = new Intent(this, PickFriendsActivity.class);
+        // Note: The following line is optional, as multi-select behavior is the default for
+        // FriendPickerFragment. It is here to demonstrate how parameters could be passed to the
+        // friend picker if single-select functionality was desired, or if a different user ID was
+        // desired (for instance, to see friends of a friend).
+        PickFriendsActivity.populateParameters(intent, null, true, true);
+        startActivityForResult(intent, PICK_FRIENDS_ACTIVITY);
+	}
 
 
 	@Override    
@@ -292,6 +310,23 @@ public class PostItUpload extends Activity{
 		      
 		
 	       
+		}else{
+			if(requestCode==PICK_FRIENDS_ACTIVITY && resultCode==RESULT_OK){
+				String results = "";
+		        FriendPickerApplication application = (FriendPickerApplication) getApplication();
+
+		        Collection<GraphUser> selection = application.getSelectedUsers();
+		        if (selection != null && selection.size() > 0) {
+		            ArrayList<String> names = new ArrayList<String>();
+		            for (GraphUser user : selection) {
+		                names.add(user.getName());
+		            }
+		            results = TextUtils.join(", ", names);
+		        } else {
+		            results = "<No friends selected>";
+		        }
+                resultList.setText(results);
+			}
 		}
 	}
 
@@ -304,6 +339,11 @@ public class PostItUpload extends Activity{
 		if (id == R.id.camera) {
 			openCamera();
 			return true;
+		}else{
+			if(id==R.id.pickFriends){
+				openFriendList();
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -8,5 +8,11 @@
         android:orderInCategory="100"
         android:showAsAction="always|withText"
         android:title="@string/CameraButton"/>
+    <item
+        android:id="@+id/pickFriends"
+        android:icon="@drawable/ic_menu_invite"
+        android:orderInCategory="101"
+        android:showAsAction="always|withText"
+        android:title="Add friends"/>
 
 </menu>

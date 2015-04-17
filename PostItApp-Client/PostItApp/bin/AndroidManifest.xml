@@ -28,7 +28,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+         android:name=".FriendPickerApplication">
+        
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -78,6 +80,10 @@
             android:name=".ListNotesActivity"
             android:label="@string/title_activity_list_notes" >
         </activity>
+        <activity
+            android:name=".PickFriendsActivity"
+            android:label="@string/title_activity_friend_picker"
+            ></activity>
     </application>
 
 </manifest>

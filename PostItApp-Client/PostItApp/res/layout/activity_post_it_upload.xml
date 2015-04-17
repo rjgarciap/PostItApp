@@ -147,7 +147,11 @@
             android:paddingLeft="10dp"
             android:visibility="invisible" />
     </RelativeLayout>
-
+    <TextView
+        android:id="@+id/resultList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
     <Button
         android:id="@+id/sendButton"
         style="@style/button_text"
