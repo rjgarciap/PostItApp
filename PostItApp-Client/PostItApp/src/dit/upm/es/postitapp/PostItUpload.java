@@ -1,5 +1,7 @@
 package dit.upm.es.postitapp;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -64,7 +67,6 @@ public class PostItUpload extends Activity{
 	RadioGroup radioGroupColors;
 	ImageView imageCamera;
 	Cloudinary cloudinary;
-	Uri imageUri;
 	String imageCloudinaryURL="";
 	
 	ImageButton deleteImageButton;
@@ -72,7 +74,7 @@ public class PostItUpload extends Activity{
 	Bitmap bp;
 
 	TextView resultList;
-	
+	ByteArrayInputStream bs;
 	private TextView tvDisplayDate;
 	private ImageButton btnChangeDate;
 	private ImageButton btnDeleteDate;
@@ -150,7 +152,7 @@ public class PostItUpload extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				imageUri = null;
+				bs = null;
 				imageCamera.setImageBitmap(null);
 				deleteImageButton.setVisibility(View.GONE);
 				changeImageButton.setVisibility(View.GONE);
@@ -293,10 +295,15 @@ public class PostItUpload extends Activity{
 	          bp.recycle();
 	        }
 	        try {
+	        	
 				stream = getContentResolver().openInputStream(data.getData());
 				 bp = BitmapFactory.decodeStream(stream);
+				 ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
+				 bp.compress(CompressFormat.JPEG,30, bos); 
+				 byte[] bitmapdata = bos.toByteArray();
+				 bs = new ByteArrayInputStream(bitmapdata);
+				 
 				 imageCamera.setImageBitmap(bp);
-				 imageUri = data.getData();
 	        } catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -411,10 +418,9 @@ public class PostItUpload extends Activity{
 			InputStream in;
 			try {
 				
-				if(imageUri != null){
-					in = getContentResolver().openInputStream(imageUri);
+				if(bs != null){
 					Map param = new HashMap<String, String>();
-					Map uploadResult= cloudinary.uploader().upload(in, param);
+					Map uploadResult= cloudinary.uploader().upload(bs, param);
 					imageCloudinaryURL = (String) uploadResult.get("public_id");
 				}
 				

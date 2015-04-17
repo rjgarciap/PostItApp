@@ -82,8 +82,8 @@ public class PostItEdit extends Activity {
 	final int CAMERA_ACT = 0 ;
 	
 	private TextView tvDisplayDate;
-	private Button btnChangeDate;
-	private Button btnDeleteDate;
+	private ImageButton btnChangeDate;
+	private ImageButton btnDeleteDate;
 	private DatePickerDialog dateDialog;
  
 	private final Calendar c = Calendar.getInstance();
@@ -153,8 +153,8 @@ public class PostItEdit extends Activity {
                 year, month,day);
 		dateDialog.getDatePicker().setMinDate(c.getTimeInMillis());
 		setCurrentDateOnView(ttlGuardado);
-		btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
-		btnDeleteDate = (Button) findViewById(R.id.btnDeleteDate);
+		btnChangeDate = (ImageButton) findViewById(R.id.btnChangeDate);
+		btnDeleteDate = (ImageButton) findViewById(R.id.btnDeleteDate);
 		
 		
 		btnChangeDate.setOnClickListener(new View.OnClickListener() {
