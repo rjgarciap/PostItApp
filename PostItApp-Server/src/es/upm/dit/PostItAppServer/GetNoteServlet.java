@@ -22,7 +22,7 @@ public class GetNoteServlet extends HttpServlet {
 		
 		NoteDAO dao = NoteDAOImpl.getInstance();
 		
-		Note note = dao.getById(Long.parseLong(id));
+		Note note = dao.getNoteAddView(Long.parseLong(id));
 		
 		resp.setContentType("application/json");
 		

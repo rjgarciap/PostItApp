@@ -25,16 +25,13 @@ public class UpdateNoteServlet extends HttpServlet {
 		String text = checkNull(req.getParameter ("content"));
 		String colorNote  = checkNull(req.getParameter("colorNote"));
 		String imageId  = req.getParameter("imageId");
+		String ttl = req.getParameter("ttl");
 		ColorNote color = ColorNote.valueOf(colorNote);
 		long id = Long.parseLong(idNote);
 		//MIRAR
 		NoteDAO dao = NoteDAOImpl.getInstance();
-		dao.editNote(id, title, text, color, imageId);
-		//Note note = dao.getById(Long.parseLong(idNote));
-		
-		//note.setText(title);
-		//note.setText(text);
-		//note.setColorNote(ColorNote.valueOf(colorNote));
+		dao.editNote(id, title, text, color, imageId, ttl);
+
 		
 	}
 	

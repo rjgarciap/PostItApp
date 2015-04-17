@@ -41,10 +41,10 @@ public class NoteDAOImpl implements NoteDAO {
 
 	@Override
 	public void add(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, 
-			String imageId, String ttl) {
+			String imageId, String ttl, int views) {
 		synchronized(this){
 			EntityManager em = EMFService.get().createEntityManager();
-			Note note = new Note(title, text, lat, lon, colorNote, userId, imageId, ttl);
+			Note note = new Note(title, text, lat, lon, colorNote, userId, imageId, ttl, views);
 			em.persist(note);
 			em.close();
 		}
@@ -112,7 +112,7 @@ public class NoteDAOImpl implements NoteDAO {
 	}
 	
 	@Override
-	public void editNote(long id, String title, String text,  ColorNote colorNote, String imageId){
+	public void editNote(long id, String title, String text,  ColorNote colorNote, String imageId, String ttl){
 
 		EntityManager em = EMFService.get().createEntityManager();
 
@@ -124,6 +124,7 @@ public class NoteDAOImpl implements NoteDAO {
 		        note.setText(text);
 		        note.setColorNote(colorNote);
 		        note.setImageId(imageId);
+		        note.setTTL(ttl);
 		        em.persist(note);
 		        tx.commit();
 		} finally {
@@ -149,6 +150,26 @@ public class NoteDAOImpl implements NoteDAO {
 		
 		return users;
 		
+		
+	}
+	
+	public Note getNoteAddView(long id){
+		
+		EntityManager em = EMFService.get().createEntityManager();
+
+		EntityTransaction tx = em.getTransaction();
+		try {
+		        tx.begin();
+		        Note note = em.find(Note.class, id);
+		        note.setViews(note.getViews()+1);
+		        em.persist(note);
+		        tx.commit();
+		        return note;
+		} finally {
+		        if (tx.isActive()) {
+		                tx.rollback();
+		        }
+		}	
 		
 	}
 	

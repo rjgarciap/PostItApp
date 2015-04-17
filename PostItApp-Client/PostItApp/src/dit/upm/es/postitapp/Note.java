@@ -3,7 +3,6 @@ package dit.upm.es.postitapp;
 
 import java.io.Serializable;
 
-
 public class Note implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -16,16 +15,8 @@ public class Note implements Serializable {
 	private ColorNote colorNote;
 	private String userId;
 	private String imageId;
-	
-	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId, String imageId){
-		
-		this.title = title; 
-		this.text = text;
-		this.lat = lat;
-		this.lon = lon;
-		this.colorNote = colorNote;
-		this.imageId = imageId;
-	}
+	private String ttl;
+	private int views;
 	
 	public Long getId(){
 		return id;
@@ -45,12 +36,6 @@ public class Note implements Serializable {
 	public ColorNote getColorNote(){
 		return colorNote;
 	}
-	public String getUserId(){
-		return userId;
-	}
-	public String getImageId(){
-		return imageId;
-	}
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -66,13 +51,29 @@ public class Note implements Serializable {
 	public void setColorNote(ColorNote colorNote){
 		this.colorNote = colorNote;
 	}
+	public String getUserId(){
+		return userId;		
+	}
 	public void setUserId(String userId){
-		this.userId = userId;
+		this.userId= userId;
+	}
+	public String getImageId(){
+		return imageId;		
 	}
 	public void setImageId(String imageId){
-		this.imageId = imageId;
+		this.imageId= imageId;
 	}
-
-
+	public String getTTL(){
+		return ttl;
+	}
+	public void setTTL(String ttl){
+		this.ttl = ttl;
+	}
+	public int getViews(){
+		return views;
+	}
+	public void setViews(int views){
+		this.views = views;
+	}
 }
 

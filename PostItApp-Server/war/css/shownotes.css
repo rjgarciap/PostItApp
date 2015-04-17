@@ -3,7 +3,10 @@
 	position: relative;
 	margin-top: 2%;
 }
-
+#grupo{
+	position: relative;
+	margin-top: 2%;
+}
 
 .datagrid table { 
 	border-collapse: collapse;

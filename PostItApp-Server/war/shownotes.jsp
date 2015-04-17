@@ -20,7 +20,7 @@
 <div id='cssmenu'>
 <ul>
    <li><a href='main.jsp'><span>Home</span></a></li>
-   <li class='active has-sub'><a href='main.jsp'><span>Management</span></a>
+   <li class='active has-sub'><a href='/main'><span>Management</span></a>
       <ul>
          <li class='has-sub'><a href='/showNotes'><span>Show Notes</span></a>
          </li>
@@ -48,6 +48,7 @@
 				<th>Id de Usuario</th>
 				<th>Titulo de la Nota</th>
 				<th>Contenido de la Nota</th>
+				<th>Fecha de expiración de la Nota</th>
 				<th>Localización</th>
 				<th>Ver nota</th>
 			</tr>
@@ -62,6 +63,9 @@
 					<td><c:out value="${note.userId}" /></td>
 					<td><c:out value="${note.title}"/></td>
 					<td><c:out value="${note.text}" /></td>
+					<td><c:out value="${note.TTL}" /></td>
+					
+					
 					<td><c:out value="${note.lat}"/><c:out value=","/><c:out value="${note.lon}"/></td>
 					<td> <a href="<c:url value="/LookNote?id=${note.id}"/>">Ver nota</a></td>
 				</tr>

@@ -28,12 +28,12 @@ public class DeleteExpiredNotesCronServlet extends HttpServlet {
 		
 		for (Note note : notes) {
 			String expirationDateString = note.getTTL(); 
-			if(expirationDateString != ""){
+			if(!expirationDateString.equals("")){
 				
 				try {
 					Date expirationDate = formatter.parse(expirationDateString);
 					
-					if(expirationDate.after(today))
+					if(expirationDate.before(today))
 						dao.remove(note.getId());
 					
 				} catch (ParseException e) {

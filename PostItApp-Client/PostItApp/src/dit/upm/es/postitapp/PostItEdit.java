@@ -6,7 +6,12 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +27,10 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.Utils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,11 +45,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PostItEdit extends Activity {
@@ -71,6 +80,18 @@ public class PostItEdit extends Activity {
 	String imageId;
 
 	final int CAMERA_ACT = 0 ;
+	
+	private TextView tvDisplayDate;
+	private Button btnChangeDate;
+	private Button btnDeleteDate;
+	private DatePickerDialog dateDialog;
+ 
+	private final Calendar c = Calendar.getInstance();
+	
+	private int year;
+	private int month;
+	private int day;
+	private String ttlGuardado;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,32 +121,66 @@ public class PostItEdit extends Activity {
 		contentEditText.setText(note.getText());
 		imageId = note.getImageId();
 		switch(note.getColorNote()){
-		case BLUE: {
-			radioGroupColors.check(R.id.colorNoteBlue);
-			break;						
-		}
-		case YELLOW: {
-			radioGroupColors.check(R.id.colorNoteYellow);
-			break;						
-		}
-		case RED: {
-			radioGroupColors.check(R.id.colorNoteRed);
-			break;						
-		}
-		case GREEN: {
-			radioGroupColors.check(R.id.colorNoteGreen);
-			break;						
-		}
-		default: {
-			radioGroupColors.check(R.id.colorNoteBlue);
-			break;
-		}
+			case BLUE: {
+				radioGroupColors.check(R.id.colorNoteBlue);
+				break;						
+			}
+			case YELLOW: {
+				radioGroupColors.check(R.id.colorNoteYellow);
+				break;						
+			}
+			case RED: {
+				radioGroupColors.check(R.id.colorNoteRed);
+				break;						
+			}
+			case GREEN: {
+				radioGroupColors.check(R.id.colorNoteGreen);
+				break;						
+			}
+			default: {
+				radioGroupColors.check(R.id.colorNoteBlue);
+				break;
+			}
 
 		}
-
-
-
-
+		
+		year = c.get(Calendar.YEAR);
+		month = c.get(Calendar.MONTH);
+		day = c.get(Calendar.DAY_OF_MONTH);
+		
+		ttlGuardado = note.getTTL();
+		dateDialog = new DatePickerDialog(this, datePickerListener, 
+                year, month,day);
+		dateDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+		setCurrentDateOnView(ttlGuardado);
+		btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
+		btnDeleteDate = (Button) findViewById(R.id.btnDeleteDate);
+		
+		
+		btnChangeDate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dateDialog.show();
+				
+			}
+		});
+		
+		btnDeleteDate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				year = c.get(Calendar.YEAR);
+				month = c.get(Calendar.MONTH);
+				day = c.get(Calendar.DAY_OF_MONTH);
+				
+				dateDialog.updateDate(year, month, day);
+				
+				// set current date into textview
+				tvDisplayDate.setText("No date selected");
+				
+			}
+		});
 
 
 		sendButton.setOnClickListener(new View.OnClickListener() { 
@@ -289,6 +344,30 @@ public class PostItEdit extends Activity {
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));	
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			pairs.add (new BasicNameValuePair("id",""+ idNote));
+			
+			String ttlString="";
+	 		if(!tvDisplayDate.getText().equals("No date selected")){
+				
+				StringBuilder ttlStringBuilder = new StringBuilder();
+				
+				ttlStringBuilder.append(year).append("-");
+				
+				if(month < 10){
+					ttlStringBuilder.append("0").append(month + 1).append("-");
+				}else{
+					ttlStringBuilder.append(month + 1).append("-");
+				}
+				
+				if(day < 10){
+					ttlStringBuilder.append("0").append(day).append("-");
+				}else{
+					ttlStringBuilder.append(day);
+				}
+				ttlString = ttlStringBuilder.toString();
+	 		}
+			
+	 		pairs.add(new BasicNameValuePair("ttl", ttlString));
+			
 			if(remImage && !imageId.equals("")){
 				pairs.add (new BasicNameValuePair("imageId",""));
 				try {
@@ -495,6 +574,59 @@ public class PostItEdit extends Activity {
 
 
 
+	}
+	
+	private DatePickerDialog.OnDateSetListener datePickerListener 
+	= new DatePickerDialog.OnDateSetListener() {
+
+		// when dialog box is closed, below method will be called.
+		public void onDateSet(DatePicker view, int selectedYear,
+				int selectedMonth, int selectedDay) {
+			year = selectedYear;
+			month = selectedMonth;
+			day = selectedDay;
+
+			// set selected date into textview
+			StringBuilder dateString = new StringBuilder();
+			
+			dateString.append(year).append("-");
+			
+			if(month < 10){
+				dateString.append("0").append(month + 1).append("-");
+			}else{
+				dateString.append(month + 1).append("-");
+			}
+			
+			if(day < 10){
+				dateString.append("0").append(day).append("-");
+			}else{
+				dateString.append(day);
+			}
+			tvDisplayDate.setText(dateString);
+
+		}
+	}; 
+	
+	public void setCurrentDateOnView(String ttlGuardado) {
+		 
+		tvDisplayDate = (TextView) findViewById(R.id.tvDate);
+		
+		if(!ttlGuardado.equals("")){
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date expirationDateGuardada = formatter.parse(ttlGuardado);
+				c.setTime(expirationDateGuardada);
+				tvDisplayDate.setText(ttlGuardado);
+				dateDialog.updateDate(year, month, day);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}else{
+			tvDisplayDate.setText("No date selected");
+		}
+			
 	}
 
 
