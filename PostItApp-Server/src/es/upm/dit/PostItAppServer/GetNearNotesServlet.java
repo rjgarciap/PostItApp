@@ -25,6 +25,7 @@ private static final long serialVersionUID = 1L;
 		// Recupero de la petición HTTP el id de la nota que quiere ver el usuario
 		Double lat = Double.parseDouble(req.getParameter("lat"));
 		Double lon = Double.parseDouble(req.getParameter("long"));
+		String userId = req.getParameter("userId");
 		
 		Double lonSup = lon+1;
 		Double lonInf = lon-1;
@@ -33,9 +34,19 @@ private static final long serialVersionUID = 1L;
 		
 		List <Note> notes = dao.getNearNotes(lat, lon);
 		List <Note> filterNotes = new ArrayList<Note>();
+		
 		for(int i=0;i<notes.size();i++){
-			if(notes.get(i).getLon()<=lonSup &&notes.get(i).getLon()>=lonInf  ){
-				filterNotes.add(notes.get(i));
+			String[] friendsList = notes.get(i).getFriendsList().split("/");
+			if(notes.get(i).getLon()<=lonSup &&notes.get(i).getLon()>=lonInf ){
+				if((friendsList[0] == "" && friendsList.length == 1)|| notes.get(i).getUserId().equals(userId) ){
+					filterNotes.add(notes.get(i));
+				}else{
+					for(String a : friendsList){
+						if(a.equals(userId)){
+							filterNotes.add(notes.get(i));
+						}
+					}
+				}
 			}
 		}
 

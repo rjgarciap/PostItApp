@@ -25,10 +25,11 @@ public class Note implements Serializable {
 	private String userId;
 	private String imageId;
 	private String ttl;
+	private String friendsList;
 	private int views;
 	
 	public Note(String title, String text, Double lat, Double lon, ColorNote colorNote, String userId,
-			String imageId, String ttl, int views){
+			String imageId, String ttl,String friendsList ,int views){
 		
 		this.title = title; 
 		this.text = text;
@@ -37,6 +38,7 @@ public class Note implements Serializable {
 		this.colorNote = colorNote;
 		this.userId = userId;
 		this.imageId = imageId;
+		this.friendsList = friendsList;
 		this.ttl = ttl;
 		this.views = views;
 		
@@ -59,6 +61,9 @@ public class Note implements Serializable {
 	}
 	public ColorNote getColorNote(){
 		return colorNote;
+	}
+	public String getFriendsList(){
+		return friendsList;
 	}
 	public void setTitle(String title){
 		this.title = title;
@@ -98,5 +103,8 @@ public class Note implements Serializable {
 	}
 	public void setViews(int views){
 		this.views = views;
+	}
+	public void setFriendsList(String friendsList){
+		this.friendsList = friendsList;
 	}
 }
