@@ -296,7 +296,8 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 
 				pairs.add(new BasicNameValuePair("lat", ""+lat));
 				pairs.add(new BasicNameValuePair("long", ""+lon));
-
+				pairs.add(new BasicNameValuePair("userId", user_ID));
+				
 
 				String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
 				HttpGet get = new HttpGet("http://1-dot-postitapp-server.appspot.com/getnearnotes" + "?" + paramsString);

@@ -73,7 +73,6 @@ public class PostItUpload extends Activity{
 	ImageButton changeImageButton;
 	Bitmap bp;
 
-	TextView resultList;
 	ByteArrayInputStream bs;
 	private TextView tvDisplayDate;
 	private ImageButton btnChangeDate;
@@ -86,6 +85,9 @@ public class PostItUpload extends Activity{
 	private int month;
 	private int day;
 
+	private String friendSelected;
+	
+	
 	int idxColor;
 	ColorNote colorNoteSelected;
 	final int CAMERA_ACT = 0 ;
@@ -112,8 +114,6 @@ public class PostItUpload extends Activity{
 		changeImageButton = (ImageButton) findViewById(R.id.changeImage);
 		
 		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
-
-		resultList=(TextView) findViewById(R.id.resultList);
 		
 		sendButton.setOnClickListener(new View.OnClickListener() {
 
@@ -235,6 +235,8 @@ public class PostItUpload extends Activity{
 			bp.recycle();
 			bp=null;
 		}
+		FriendPickerApplication application = (FriendPickerApplication) getApplication();
+        application.setSelectedUsers(null);
 	}
 	
 	public void openCamera(){
@@ -257,7 +259,9 @@ public class PostItUpload extends Activity{
         // FriendPickerFragment. It is here to demonstrate how parameters could be passed to the
         // friend picker if single-select functionality was desired, or if a different user ID was
         // desired (for instance, to see friends of a friend).
-        PickFriendsActivity.populateParameters(intent, null, true, true);
+		Bundle extras = getIntent().getExtras();
+		String userId = extras.getString("userId");
+        PickFriendsActivity.populateParameters(intent, userId, true, true);
         startActivityForResult(intent, PICK_FRIENDS_ACTIVITY);
 	}
 
@@ -320,20 +324,19 @@ public class PostItUpload extends Activity{
 	       
 		}else{
 			if(requestCode==PICK_FRIENDS_ACTIVITY && resultCode==RESULT_OK){
-				String results = "";
+				friendSelected = "";
 		        FriendPickerApplication application = (FriendPickerApplication) getApplication();
 
 		        Collection<GraphUser> selection = application.getSelectedUsers();
 		        if (selection != null && selection.size() > 0) {
-		            ArrayList<String> names = new ArrayList<String>();
+		            ArrayList<String> friendsId = new ArrayList<String>();
 		            for (GraphUser user : selection) {
-		                names.add(user.getName());
+		                friendsId.add(user.getId());
 		            }
-		            results = TextUtils.join(", ", names);
+		            friendSelected = TextUtils.join("/", friendsId);
 		        } else {
-		            results = "<No friends selected>";
+		            friendSelected = "";
 		        }
-                resultList.setText(results);
 			}
 		}
 	}
@@ -439,6 +442,7 @@ public class PostItUpload extends Activity{
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
 			pairs.add(new BasicNameValuePair("long", ""+lon));
 			pairs.add(new BasicNameValuePair("userId", ""+userId));
+			pairs.add(new BasicNameValuePair("friendList", friendSelected));
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			pairs.add(new BasicNameValuePair("imageId", imageCloudinaryURL));
 			

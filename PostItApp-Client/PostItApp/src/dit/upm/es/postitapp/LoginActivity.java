@@ -1,5 +1,7 @@
 package dit.upm.es.postitapp;
 
+import java.util.Arrays;
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -42,7 +44,6 @@ public class LoginActivity extends FragmentActivity {
 					.findFragmentById(android.R.id.content);
 		}
 		loginBtn = (LoginButton) findViewById(R.id.authButton);
-
 	}
 
 	@Override
@@ -107,11 +108,10 @@ public class LoginActivity extends FragmentActivity {
 		public void call(Session session, SessionState state,Exception exception) {
 			// TODO Auto-generated method stub
 			if (state.isOpened()) {
-				loginBtn.setClickable(false);
 				String userId = session.getAccessToken();
 				startMain(userId);
 			} else if (state.isClosed()) {
-				loginBtn.setVisibility(View.VISIBLE);
+				
 			}
 
 		}

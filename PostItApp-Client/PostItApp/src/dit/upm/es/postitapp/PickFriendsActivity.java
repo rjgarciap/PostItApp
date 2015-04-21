@@ -79,7 +79,6 @@ public class PickFriendsActivity extends FragmentActivity {
                 // We just store our selection in the Application for other activities to look at.
                 FriendPickerApplication application = (FriendPickerApplication) getApplication();
                 application.setSelectedUsers(friendPickerFragment.getSelection());
-
                 setResult(RESULT_OK, null);
                 finish();
             }

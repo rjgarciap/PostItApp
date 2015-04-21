@@ -371,7 +371,7 @@ public class PostItEdit extends Activity {
 			if(remImage && !imageId.equals("")){
 				pairs.add (new BasicNameValuePair("imageId",""));
 				try {
-					Map probando = cloudinary.uploader().destroy(imageId, null);
+					cloudinary.uploader().destroy(imageId, null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -397,7 +397,7 @@ public class PostItEdit extends Activity {
 
 					}else{
 						try {
-							Map probando = cloudinary.uploader().destroy(imageId, null);
+							cloudinary.uploader().destroy(imageId, null);
 							in = getContentResolver().openInputStream(imageUri);
 
 							Map param = new HashMap<String, String>();
