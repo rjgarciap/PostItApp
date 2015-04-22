@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.EditText;
 import android.widget.Button;
@@ -80,18 +82,21 @@ public class PostItEdit extends Activity {
 	String imageId;
 
 	final int CAMERA_ACT = 0 ;
-	
+
 	private TextView tvDisplayDate;
 	private ImageButton btnChangeDate;
 	private ImageButton btnDeleteDate;
 	private DatePickerDialog dateDialog;
- 
+
 	private final Calendar c = Calendar.getInstance();
-	
+
 	private int year;
 	private int month;
 	private int day;
 	private String ttlGuardado;
+	private LinearLayout myLayout;
+
+	private TextView lineColor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +111,10 @@ public class PostItEdit extends Activity {
 		deleteImageButton = (ImageButton) findViewById(R.id.deleteImage);
 		changeImageButton = (ImageButton) findViewById(R.id.changeImage);
 
+		myLayout = (LinearLayout) findViewById(R.id.layoutEdit);
+		lineColor =(TextView) findViewById(R.id.lineNote);
+		
+		
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
 		progressBar = new ProgressDialog(this);
@@ -121,64 +130,87 @@ public class PostItEdit extends Activity {
 		contentEditText.setText(note.getText());
 		imageId = note.getImageId();
 		switch(note.getColorNote()){
-			case BLUE: {
-				radioGroupColors.check(R.id.colorNoteBlue);
-				break;						
-			}
-			case YELLOW: {
-				radioGroupColors.check(R.id.colorNoteYellow);
-				break;						
-			}
-			case RED: {
-				radioGroupColors.check(R.id.colorNoteRed);
-				break;						
-			}
-			case GREEN: {
-				radioGroupColors.check(R.id.colorNoteGreen);
-				break;						
-			}
-			default: {
-				radioGroupColors.check(R.id.colorNoteBlue);
-				break;
-			}
+		case BLUE: {
+			radioGroupColors.check(R.id.colorNoteBlue);
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
+			break;						
+		}
+		case YELLOW: {
+			radioGroupColors.check(R.id.colorNoteYellow);
+			myLayout.setBackgroundColor(Color.parseColor("#F7F6E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#FFFF30"));
+			break;						
+		}
+		case RED: {
+			radioGroupColors.check(R.id.colorNoteRed);
+			myLayout.setBackgroundColor(Color.parseColor("#F7E8E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#D13636"));			
+			break;						
+		}
+		case GREEN: {
+			radioGroupColors.check(R.id.colorNoteGreen);
+			myLayout.setBackgroundColor(Color.parseColor("#E6F4E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#12EA21"));
+			break;						
+		}
+		default: {
+			radioGroupColors.check(R.id.colorNoteBlue);
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
+			break;
+		}
 
 		}
+
+		
+radioGroupColors.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				// TODO Auto-generated method stub
+				Log.i("checked", checkedId+"");
+				View radioButton = radioGroupColors.findViewById(checkedId);
+				int idx = radioGroupColors.indexOfChild(radioButton);
+				colorNoteSelected = getColorNote(idx);
+			}
+		});
 		
 		year = c.get(Calendar.YEAR);
 		month = c.get(Calendar.MONTH);
 		day = c.get(Calendar.DAY_OF_MONTH);
-		
+
 		ttlGuardado = note.getTTL();
 		dateDialog = new DatePickerDialog(this, datePickerListener, 
-                year, month,day);
+				year, month,day);
 		dateDialog.getDatePicker().setMinDate(c.getTimeInMillis());
 		setCurrentDateOnView(ttlGuardado);
 		btnChangeDate = (ImageButton) findViewById(R.id.btnChangeDate);
 		btnDeleteDate = (ImageButton) findViewById(R.id.btnDeleteDate);
-		
-		
+
+
 		btnChangeDate.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				dateDialog.show();
-				
+
 			}
 		});
-		
+
 		btnDeleteDate.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				year = c.get(Calendar.YEAR);
 				month = c.get(Calendar.MONTH);
 				day = c.get(Calendar.DAY_OF_MONTH);
-				
+
 				dateDialog.updateDate(year, month, day);
-				
+
 				// set current date into textview
 				tvDisplayDate.setText("No date selected");
-				
+
 			}
 		});
 
@@ -255,6 +287,9 @@ public class PostItEdit extends Activity {
 			deleteImageButton.setVisibility(View.GONE);
 			imageCamera.setVisibility(View.GONE);
 		}
+		View radioButton = radioGroupColors.findViewById(radioGroupColors.getCheckedRadioButtonId());
+		int idx = radioGroupColors.indexOfChild(radioButton);
+		colorNoteSelected = getColorNote(idx);
 	}
 
 	@Override
@@ -271,7 +306,7 @@ public class PostItEdit extends Activity {
 			imageCamera.setVisibility(View.GONE);
 		}
 	}
-	
+
 	public void openCamera(){
 		// Check if there is a camera.
 		Context context = this;
@@ -344,30 +379,30 @@ public class PostItEdit extends Activity {
 			pairs.add(new BasicNameValuePair("content", contentEditText.getText().toString()));	
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			pairs.add (new BasicNameValuePair("id",""+ idNote));
-			
+
 			String ttlString="";
-	 		if(!tvDisplayDate.getText().equals("No date selected")){
-				
+			if(!tvDisplayDate.getText().equals("No date selected")){
+
 				StringBuilder ttlStringBuilder = new StringBuilder();
-				
+
 				ttlStringBuilder.append(year).append("-");
-				
+
 				if(month < 10){
 					ttlStringBuilder.append("0").append(month + 1).append("-");
 				}else{
 					ttlStringBuilder.append(month + 1).append("-");
 				}
-				
+
 				if(day < 10){
 					ttlStringBuilder.append("0").append(day).append("-");
 				}else{
 					ttlStringBuilder.append(day);
 				}
 				ttlString = ttlStringBuilder.toString();
-	 		}
-			
-	 		pairs.add(new BasicNameValuePair("ttl", ttlString));
-			
+			}
+
+			pairs.add(new BasicNameValuePair("ttl", ttlString));
+
 			if(remImage && !imageId.equals("")){
 				pairs.add (new BasicNameValuePair("imageId",""));
 				try {
@@ -462,7 +497,7 @@ public class PostItEdit extends Activity {
 				alertDialog.setTitle("Uploaded");
 				alertDialog.setMessage("Note has been successfully uploaded");
 				alertDialog.show();
-			
+
 			}else{
 				alertDialog.setTitle("Error");
 				alertDialog.setMessage("Sorry, Note has not been able to upload, try again later.");
@@ -475,30 +510,41 @@ public class PostItEdit extends Activity {
 	}
 
 
-
 	public ColorNote getColorNote(int idxColor){
 
 		ColorNote result;
 		switch (idxColor) {
 		case 0:
 			result = ColorNote.BLUE;
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
 			break;
 		case 1:
 			result = ColorNote.YELLOW;
+			myLayout.setBackgroundColor(Color.parseColor("#F7F6E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#FFFF30"));
 			break;
 		case 2:
 			result = ColorNote.RED;
+			Log.i("checked", "red");
+			myLayout.setBackgroundColor(Color.parseColor("#F7E8E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#D13636"));
 			break;
 		case 3:
 			result = ColorNote.GREEN;
+			myLayout.setBackgroundColor(Color.parseColor("#E6F4E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#12EA21"));
 			break;
 
 		default:
 			result = ColorNote.BLUE;
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
 			break;
 		}
 		return result;
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -506,7 +552,7 @@ public class PostItEdit extends Activity {
 		getMenuInflater().inflate(R.menu.post_it_edit, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -575,7 +621,7 @@ public class PostItEdit extends Activity {
 
 
 	}
-	
+
 	private DatePickerDialog.OnDateSetListener datePickerListener 
 	= new DatePickerDialog.OnDateSetListener() {
 
@@ -588,15 +634,15 @@ public class PostItEdit extends Activity {
 
 			// set selected date into textview
 			StringBuilder dateString = new StringBuilder();
-			
+
 			dateString.append(year).append("-");
-			
+
 			if(month < 10){
 				dateString.append("0").append(month + 1).append("-");
 			}else{
 				dateString.append(month + 1).append("-");
 			}
-			
+
 			if(day < 10){
 				dateString.append("0").append(day).append("-");
 			}else{
@@ -606,11 +652,11 @@ public class PostItEdit extends Activity {
 
 		}
 	}; 
-	
+
 	public void setCurrentDateOnView(String ttlGuardado) {
-		 
+
 		tvDisplayDate = (TextView) findViewById(R.id.tvDate);
-		
+
 		if(!ttlGuardado.equals("")){
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			try {
@@ -626,7 +672,7 @@ public class PostItEdit extends Activity {
 		}else{
 			tvDisplayDate.setText("No date selected");
 		}
-			
+
 	}
 
 

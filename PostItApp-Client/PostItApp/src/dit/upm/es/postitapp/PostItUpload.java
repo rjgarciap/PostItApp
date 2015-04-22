@@ -38,10 +38,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,9 +87,12 @@ public class PostItUpload extends Activity{
 	private int year;
 	private int month;
 	private int day;
-
+	
 	private String friendSelected;
 	
+	private LinearLayout myLayout;
+	
+	private TextView lineColor;
 	
 	int idxColor;
 	ColorNote colorNoteSelected;
@@ -98,6 +104,9 @@ public class PostItUpload extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_it_upload);
 
+		myLayout = (LinearLayout) findViewById(R.id.layoutUpload);
+		lineColor =(TextView) findViewById(R.id.lineNote);
+		
 		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
@@ -115,6 +124,21 @@ public class PostItUpload extends Activity{
 		
 		radioGroupColors = (RadioGroup) findViewById(R.id.radioGroupColorNotes);
 		
+		friendSelected = "";
+		
+		 radioGroupColors.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				// TODO Auto-generated method stub
+				Log.i("checked", checkedId+"");
+				View radioButton = radioGroupColors.findViewById(checkedId);
+				int idx = radioGroupColors.indexOfChild(radioButton);
+				colorNoteSelected = getColorNote(idx);
+			}
+		});
+
+		 
 		sendButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -127,9 +151,9 @@ public class PostItUpload extends Activity{
 					return;
 				}
 
-				View radioButton = radioGroupColors.findViewById(radioGroupColors.getCheckedRadioButtonId());
-				int idx = radioGroupColors.indexOfChild(radioButton);
-				colorNoteSelected = getColorNote(idx);
+				//View radioButton = radioGroupColors.findViewById(radioGroupColors.getCheckedRadioButtonId());
+				//int idx = radioGroupColors.indexOfChild(radioButton);
+				//colorNoteSelected = getColorNote(idx);
 				new PostNote().execute();
 
 
@@ -218,6 +242,10 @@ public class PostItUpload extends Activity{
 			changeImageButton.setVisibility(View.GONE);
 			imageCamera.setVisibility(View.GONE);
 		}
+		
+		View radioButton = radioGroupColors.findViewById(radioGroupColors.getCheckedRadioButtonId());
+		int idx = radioGroupColors.indexOfChild(radioButton);
+		colorNoteSelected = getColorNote(idx);
 	}
 
 	@Override
@@ -334,9 +362,12 @@ public class PostItUpload extends Activity{
 		                friendsId.add(user.getId());
 		            }
 		            friendSelected = TextUtils.join("/", friendsId);
+		            
 		        } else {
 		            friendSelected = "";
 		        }
+		        Log.i("muestrameamigos",friendSelected);
+		        
 			}
 		}
 	}
@@ -366,19 +397,30 @@ public class PostItUpload extends Activity{
 		switch (idxColor) {
 		case 0:
 			result = ColorNote.BLUE;
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
 			break;
 		case 1:
 			result = ColorNote.YELLOW;
+			myLayout.setBackgroundColor(Color.parseColor("#F7F6E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#FFFF30"));
 			break;
 		case 2:
 			result = ColorNote.RED;
+			Log.i("checked", "red");
+			myLayout.setBackgroundColor(Color.parseColor("#F7E8E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#D13636"));
 			break;
 		case 3:
 			result = ColorNote.GREEN;
+			myLayout.setBackgroundColor(Color.parseColor("#E6F4E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#12EA21"));
 			break;
 
 		default:
 			result = ColorNote.BLUE;
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
 			break;
 		}
 		return result;
@@ -442,7 +484,7 @@ public class PostItUpload extends Activity{
 			pairs.add(new BasicNameValuePair("lat", ""+lat));
 			pairs.add(new BasicNameValuePair("long", ""+lon));
 			pairs.add(new BasicNameValuePair("userId", ""+userId));
-			pairs.add(new BasicNameValuePair("friendList", friendSelected));
+			pairs.add(new BasicNameValuePair("friendsList", friendSelected));
 			pairs.add(new BasicNameValuePair("colorNote", ""+colorNoteSelected.toString()));
 			pairs.add(new BasicNameValuePair("imageId", imageCloudinaryURL));
 			

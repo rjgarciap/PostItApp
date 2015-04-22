@@ -1,166 +1,182 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutEdit"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/BlueApp"
+    android:background="#E8E8F8"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dit.upm.es.postitapp.PostItUpload" >
+    tools:context="dit.upm.es.postitapp.PostItEdit" >
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TitlePostIt"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/titleNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" >
-
-        <requestFocus android:layout_width="match_parent" />
-    </EditText>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ContentPostIt"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/contentNote"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ColorPostIt"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupColorNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:id="@+id/colorNoteBlue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/button_blue"
-            android:checked="true"
-            android:height="50dp"
-            android:width="50dp" />
-
-        <RadioButton
-            android:id="@+id/colorNoteYellow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/button_yellow"
-            android:height="50dp"
-            android:width="50dp" />
-
-        <RadioButton
-            android:id="@+id/colorNoteRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/button_red"
-            android:height="50dp"
-            android:width="50dp" />
-
-        <RadioButton
-            android:id="@+id/colorNoteGreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/button_green"
-            android:height="50dp"
-            android:width="50dp" />
-    </RadioGroup>
+        android:id="@+id/lineNote"
+        android:layout_width="fill_parent"
+        android:layout_height="9sp"
+        android:background="#6D8EDB"
+        android:padding="0sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal" >
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="@string/TitlePostIt"
+            android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/btnChangeDate"
+        <EditText
+            android:id="@+id/titleNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/mybutton"
-            android:src="@android:drawable/ic_menu_today" />
+            android:ems="10"
+            android:inputType="text" >
 
-        <ImageButton
-            android:id="@+id/btnDeleteDate"
+            <requestFocus android:layout_width="match_parent" />
+        </EditText>
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/ContentPostIt"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/contentNote"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ColorPostIt"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupColorNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/colorNoteBlue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/button_blue"
+                android:checked="true"
+                android:height="50dp"
+                android:width="50dp" />
+
+            <RadioButton
+                android:id="@+id/colorNoteYellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/button_yellow"
+                android:height="50dp"
+                android:width="50dp" />
+
+            <RadioButton
+                android:id="@+id/colorNoteRed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/button_red"
+                android:height="50dp"
+                android:width="50dp" />
+
+            <RadioButton
+                android:id="@+id/colorNoteGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/button_green"
+                android:height="50dp"
+                android:width="50dp" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <ImageButton
+                android:id="@+id/btnChangeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/mybutton"
+                android:src="@android:drawable/ic_menu_today" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mybutton"
+                android:src="@android:drawable/ic_menu_revert" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/imageCamera"
+                android:layout_width="100sp"
+                android:layout_height="75sp"
+                android:layout_marginTop="10sp" />
+
+            <ImageButton
+                android:id="@+id/changeImage"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_alignBottom="@+id/imageCamera"
+                android:layout_alignLeft="@+id/imageCamera"
+                android:background="@android:drawable/ic_menu_rotate"
+                android:paddingLeft="10dp"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/deleteImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@+id/imageCamera"
+                android:layout_alignRight="@+id/imageCamera"
+                android:background="@android:drawable/ic_delete"
+                android:paddingLeft="10dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/sendButton"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/mybutton"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:drawableLeft="@android:drawable/ic_menu_send"
+            android:text="@string/SendButton" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/RelativeLayout01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
-
-        <ImageView
-            android:id="@+id/imageCamera"
-            android:layout_width="100sp"
-            android:layout_height="75sp"
-            android:layout_marginTop="10sp" />
-
-        <ImageButton
-            android:id="@+id/changeImage"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_alignBottom="@+id/imageCamera"
-            android:layout_alignLeft="@+id/imageCamera"
-            android:background="@android:drawable/ic_menu_rotate"
-            android:paddingLeft="10dp"
-            android:visibility="invisible" />
-
-        <ImageButton
-            android:id="@+id/deleteImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignBottom="@+id/imageCamera"
-            android:layout_alignRight="@+id/imageCamera"
-            android:background="@android:drawable/ic_delete"
-            android:paddingLeft="10dp"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/sendButton"
-        style="@style/button_text"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/mybutton"
-        android:drawableLeft="@android:drawable/ic_menu_send"
-        android:text="@string/SendButton" />
 
 </LinearLayout>

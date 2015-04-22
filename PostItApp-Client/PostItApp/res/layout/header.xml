@@ -18,6 +18,7 @@
             android:id="@+id/profilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:layout_gravity="center_vertical"
             app:is_cropped="true"
             app:preset_size="small" />

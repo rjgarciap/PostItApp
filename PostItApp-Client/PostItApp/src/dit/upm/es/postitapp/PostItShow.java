@@ -46,6 +46,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,6 +54,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
@@ -87,6 +89,10 @@ public class PostItShow extends Activity {
 	Bitmap bmp;
 
 	String imageId;
+	
+	private LinearLayout myLayout;
+
+	private TextView lineColor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +109,14 @@ public class PostItShow extends Activity {
 		reportButton = (Button) findViewById(R.id.reportButton);
 
 		imageNote = (ImageView) findViewById(R.id.imageNote);
+		
 
+		myLayout = (LinearLayout) findViewById(R.id.layoutShow);
+		lineColor =(TextView) findViewById(R.id.lineNote);
+
+		myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+		lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
+		
 		cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
 		client = new DefaultHttpClient();
 		alertDialog = new AlertDialog.Builder(this).create();
@@ -394,6 +407,7 @@ public class PostItShow extends Activity {
 
 			titleTextView.setText(result.getTitle());
 			contentTextView.setText(result.getText());
+			setColorNoteBG(result.getColorNote());
 			if(result.getImageId()!=""){
 				imageNote.setImageBitmap(bmp);
 				imageNote.setVisibility(View.VISIBLE);
@@ -481,6 +495,32 @@ public class PostItShow extends Activity {
 
 		}
 
+	}
+	
+	public void setColorNoteBG(ColorNote colorNote){
+		switch (colorNote) {
+		case BLUE:
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
+			break;
+		case YELLOW:
+			myLayout.setBackgroundColor(Color.parseColor("#F7F6E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#FFFF30"));
+			break;
+		case RED:
+			myLayout.setBackgroundColor(Color.parseColor("#F7E8E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#D13636"));
+			break;
+		case GREEN:
+			myLayout.setBackgroundColor(Color.parseColor("#E6F4E8"));
+			lineColor.setBackgroundColor(Color.parseColor("#12EA21"));
+			break;
+
+		default:
+			myLayout.setBackgroundColor(Color.parseColor("#E8E8F8"));
+			lineColor.setBackgroundColor(Color.parseColor("#6D8EDB"));
+			break;
+		}
 	}
 
 }

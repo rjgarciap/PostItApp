@@ -78,7 +78,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	private Double lon;
 
 	private boolean first = true;
-	
+
 	private Map<Marker,Long> allMarkersMap;
 	ProgressDialog progressBar;
 	GetNearNotes getNearNotesthread;
@@ -87,26 +87,26 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		if(session==null){
 			finish();
 		}
-		
+
 		setContentView(R.layout.activity_main);
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-		
+
 		map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 		map.setMyLocationEnabled(true);
 		map.setOnMapClickListener(this);
 		map.setOnMyLocationChangeListener(myLocationChangeListener);
 
-		
+
 		progressBar = new ProgressDialog(this);
 		progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressBar.setMessage("Loading your position...");
-		
+
 		if(first){
 			progressBar.show();
 		}
@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 
 		profilePicture = (ProfilePictureView) findViewById(R.id.profilePicture);
 		userNameView = (TextView) findViewById(R.id.userNameView);
-		
+
 		getUserData();
 	}
 
@@ -297,7 +297,7 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 				pairs.add(new BasicNameValuePair("lat", ""+lat));
 				pairs.add(new BasicNameValuePair("long", ""+lon));
 				pairs.add(new BasicNameValuePair("userId", user_ID));
-				
+
 
 				String paramsString = URLEncodedUtils.format(pairs, "UTF-8");
 				HttpGet get = new HttpGet("http://1-dot-postitapp-server.appspot.com/getnearnotes" + "?" + paramsString);
@@ -426,29 +426,28 @@ public class MainActivity extends FragmentActivity  implements OnMapClickListene
 		}
 
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-	   Log.d("CDA", "onBackPressed Called");
-	   Intent setIntent = new Intent(Intent.ACTION_MAIN);
-	   setIntent.addCategory(Intent.CATEGORY_HOME);
-	   setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	   startActivity(setIntent);
+		Intent setIntent = new Intent(Intent.ACTION_MAIN);
+		setIntent.addCategory(Intent.CATEGORY_HOME);
+		setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(setIntent);
 	}
-	
+
 	/**
 	 * This method check mobile is connected to network.
 	 * @param context
 	 * @return true if connected otherwise false.
 	 */
 	public static boolean isNetworkAvailable(Context context) {
-	    ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
-	        return true;
-	    else
-	        return false;
+		ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
+			return true;
+		else
+			return false;
 	}
-	
-	
-	
+
+
+
 }
